@@ -287,7 +287,7 @@
     <!-- Dish Details -->
     <main class="menu-content">
         <div class="dish-details">
-            <img src="imageProductos/Picada-Para-2-Food.jpg" alt="PIKADAS" class="dish-image" id="pikada-image">
+            <img src="imageProductos/Pikdas.png" alt="PIKADAS" class="dish-image" id="pikada-image">
             
             <h2 class="dish-title">PIKADAS</h2>
             
@@ -319,15 +319,27 @@
                 Selecciona tus opciones
             </p>
             
-            <div class="protein-selector" id="protein-selector">
-                <!-- Proteínas se cargarán con JavaScript -->
+            <div class="selection-group">
+                <h4><i class="fas fa-drumstick-bite"></i> Agrega Proteínas Adicionales</h4>
+                <p id="protein-info" style="color: #ffeb3b; text-align: center; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">
+                    <i class="fas fa-info-circle"></i> <span id="protein-included-text">-</span> incluidas. Las adicionales tienen costo según la proteína
+                </p>
+                <div class="protein-selector" id="protein-selector">
+                    <!-- Proteínas se cargarán con JavaScript -->
+                </div>
             </div>
             <div class="selection-group">
-                <h4><i class="fas fa-drumstick-bite"></i> Elige tus Guarniciones</h4>
+                <h4><i class="fas fa-utensils"></i> Elige tus Guarniciones</h4>
+                <p id="guarnicion-info" style="color: #ffeb3b; text-align: center; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">
+                    <i class="fas fa-info-circle"></i> <span id="guarnicion-included-text">-</span> incluidas. Las adicionales: +$6.000 c/u
+                </p>
                 <div class="option-list" id="guarnicion-selector"></div>
             </div>
             <div class="selection-group">
                 <h4><i class="fas fa-leaf"></i> Elige tus Ensaladas</h4>
+                <p id="ensalada-info" style="color: #ffeb3b; text-align: center; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">
+                    <i class="fas fa-info-circle"></i> <span id="ensalada-included-text">-</span> incluidas. Las adicionales: +$5.000 c/u
+                </p>
                 <div class="option-list" id="ensalada-selector"></div>
             </div>
             <div class="selection-group">
@@ -350,7 +362,7 @@
             </div>
             
             <div class="total-price-section">
-                <div class="total-price-label">Total a Pagar:</div>
+                <div class="total-price-label">Costo de este plato:</div>
                 <div class="total-price-amount" id="total-price">$0</div>
             </div>
             
@@ -364,8 +376,8 @@
     <section class="contact-section">
         <div class="address">
             <h3>Dirección</h3>
-            <a href="https://maps.app.goo.gl/FYZQf1QCBQcVHZ1x8" target="_blank" style="text-decoration: none; color: inherit;">
-                <p><i class="fas fa-map-marker-alt"></i> Cra 15 Calle 16 Barrio el Centenario. Caucasia Antioquia</p>
+            <a href="https://maps.app.goo.gl/ochgZSWpUc8TR35n7" target="_blank" style="text-decoration: none; color: inherit;">
+                <p><i class="fas fa-map-marker-alt"></i> Calle 22 # 15-33 Barrio el Pajonal Caucasia - Antioquia</p>
             </a>
         </div>
         <div class="contact">
@@ -531,6 +543,11 @@
             const description = `${selectedPikada.proteins} Proteínas, ${selectedPikada.guarniciones} Guarniciones, ${selectedPikada.ensaladas} Ensalada(s), ${selectedPikada.salsas} Salsa(s)`;
             document.getElementById('pikada-description').textContent = description;
             
+            // Actualizar información de precios adicionales
+            document.getElementById('protein-included-text').textContent = `${selectedPikada.proteins} proteínas`;
+            document.getElementById('guarnicion-included-text').textContent = `${selectedPikada.guarniciones} guarniciones`;
+            document.getElementById('ensalada-included-text').textContent = `${selectedPikada.ensaladas} ensalada(s)`;
+            
             // Reiniciar selecciones
             selectedProteins = [];
             selectedGuarniciones = [];
@@ -599,6 +616,7 @@
                 selectedGuarniciones.push(name);
             }
             renderGuarniciones();
+            updateTotal();
             updateSummary();
         }
         
@@ -624,6 +642,7 @@
                 selectedEnsaladas.push(name);
             }
             renderEnsaladas();
+            updateTotal();
             updateSummary();
         }
         
@@ -655,14 +674,59 @@
             updateSummary();
         }
         
+        // Calcular opciones adicionales (que exceden las incluidas)
+        function getAdditionalItems() {
+            if (!selectedPikada) return { proteins: 0, guarniciones: 0, ensaladas: 0, salsas: 0 };
+            
+            const includedProteins = parseInt(selectedPikada.proteins);
+            const includedGuarniciones = parseInt(selectedPikada.guarniciones);
+            const includedEnsaladas = parseInt(selectedPikada.ensaladas);
+            const includedSalsas = parseInt(selectedPikada.salsas);
+            
+            const selectedProteinsCount = selectedProteins.length;
+            const selectedGuarnicionesCount = selectedGuarniciones.length;
+            const selectedEnsaladasCount = selectedEnsaladas.length;
+            const selectedSalsasCount = selectedSalsas.length;
+            
+            return {
+                proteins: Math.max(0, selectedProteinsCount - includedProteins),
+                guarniciones: Math.max(0, selectedGuarnicionesCount - includedGuarniciones),
+                ensaladas: Math.max(0, selectedEnsaladasCount - includedEnsaladas),
+                salsas: Math.max(0, selectedSalsasCount - includedSalsas)
+            };
+        }
+        
+        // Precios de opciones adicionales
+        const ADDITIONAL_GUARNICION_PRICE = 6000;
+        const ADDITIONAL_ENSALADA_PRICE = 5000;
+        
         // Actualizar total
         function updateTotal() {
             if (!selectedPikada) return;
             
             let total = selectedPikada.price;
-            selectedProteins.forEach(protein => {
-                total += protein.price;
-            });
+            const additional = getAdditionalItems();
+            
+            // Cobrar las proteínas adicionales (las que exceden las incluidas)
+            if (additional.proteins > 0) {
+                // Tomar solo las últimas N proteínas adicionales
+                const additionalProteins = selectedProteins.slice(-additional.proteins);
+                additionalProteins.forEach(protein => {
+                    total += protein.price;
+                });
+            }
+            
+            // Cobrar las guarniciones adicionales
+            if (additional.guarniciones > 0) {
+                total += additional.guarniciones * ADDITIONAL_GUARNICION_PRICE;
+            }
+            
+            // Cobrar las ensaladas adicionales
+            if (additional.ensaladas > 0) {
+                total += additional.ensaladas * ADDITIONAL_ENSALADA_PRICE;
+            }
+            
+            // Las salsas adicionales no tienen costo extra
             
             document.getElementById('total-price').textContent = `$${total.toLocaleString()}`;
         }
@@ -673,33 +737,73 @@
             
             document.getElementById('summary-pikada').textContent = selectedPikada.name;
             
+            const additional = getAdditionalItems();
+            const includedProteins = parseInt(selectedPikada.proteins);
+            const includedGuarniciones = parseInt(selectedPikada.guarniciones);
+            const includedEnsaladas = parseInt(selectedPikada.ensaladas);
+            const includedSalsas = parseInt(selectedPikada.salsas);
+            
             // Proteínas
             if (selectedProteins.length > 0) {
-                const proteinsText = selectedProteins.map(p => `${p.name} (+$${p.price.toLocaleString()})`).join(', ');
-                document.getElementById('summary-proteins').textContent = proteinsText;
+                let proteinsText = selectedProteins.map(p => p.name).join(', ');
+                if (selectedProteins.length <= includedProteins) {
+                    // Todas están incluidas
+                    proteinsText += `<br><span style="color: #4caf50; font-size: 0.9em;">(${selectedProteins.length}/${includedProteins} incluidas - Sin costo adicional)</span>`;
+                } else {
+                    // Hay adicionales
+                    const additionalProteinsList = selectedProteins.slice(includedProteins);
+                    const additionalCost = additionalProteinsList.reduce((sum, p) => sum + p.price, 0);
+                    proteinsText += `<br><span style="color: #4caf50; font-size: 0.9em;">${includedProteins} incluidas</span>`;
+                    proteinsText += `<br><span style="color: #ffeb3b; font-size: 0.9em;">${additional.proteins} adicionales: +$${additionalCost.toLocaleString()}</span>`;
+                }
+                document.getElementById('summary-proteins').innerHTML = proteinsText;
             } else {
-                document.getElementById('summary-proteins').textContent = 'Ninguna';
+                document.getElementById('summary-proteins').innerHTML = `<span style="color: #999;">0/${includedProteins} seleccionadas</span>`;
             }
             
             // Guarniciones
             if (selectedGuarniciones.length > 0) {
-                document.getElementById('summary-guarniciones').textContent = selectedGuarniciones.join(', ');
+                let guarnicionesText = selectedGuarniciones.join(', ');
+                if (selectedGuarniciones.length > includedGuarniciones) {
+                    const additionalCost = additional.guarniciones * ADDITIONAL_GUARNICION_PRICE;
+                    guarnicionesText += `<br><span style="color: #4caf50; font-size: 0.9em;">${includedGuarniciones} incluidas</span>`;
+                    guarnicionesText += `<br><span style="color: #ffeb3b; font-size: 0.9em;">${additional.guarniciones} adicionales: +$${additionalCost.toLocaleString()}</span>`;
+                    document.getElementById('summary-guarniciones').innerHTML = guarnicionesText;
+                } else {
+                    guarnicionesText += ` (${selectedGuarniciones.length}/${includedGuarniciones} incluidas - Sin costo adicional)`;
+                    document.getElementById('summary-guarniciones').innerHTML = guarnicionesText;
+                }
             } else {
-                document.getElementById('summary-guarniciones').textContent = '-';
+                document.getElementById('summary-guarniciones').innerHTML = `<span style="color: #999;">0/${includedGuarniciones} seleccionadas</span>`;
             }
             
             // Ensaladas
             if (selectedEnsaladas.length > 0) {
-                document.getElementById('summary-ensaladas').textContent = selectedEnsaladas.join(', ');
+                let ensaladasText = selectedEnsaladas.join(', ');
+                if (selectedEnsaladas.length > includedEnsaladas) {
+                    const additionalCost = additional.ensaladas * ADDITIONAL_ENSALADA_PRICE;
+                    ensaladasText += `<br><span style="color: #4caf50; font-size: 0.9em;">${includedEnsaladas} incluidas</span>`;
+                    ensaladasText += `<br><span style="color: #ffeb3b; font-size: 0.9em;">${additional.ensaladas} adicionales: +$${additionalCost.toLocaleString()}</span>`;
+                    document.getElementById('summary-ensaladas').innerHTML = ensaladasText;
+                } else {
+                    ensaladasText += ` (${selectedEnsaladas.length}/${includedEnsaladas} incluidas - Sin costo adicional)`;
+                    document.getElementById('summary-ensaladas').innerHTML = ensaladasText;
+                }
             } else {
-                document.getElementById('summary-ensaladas').textContent = '-';
+                document.getElementById('summary-ensaladas').innerHTML = `<span style="color: #999;">0/${includedEnsaladas} seleccionadas</span>`;
             }
             
             // Salsas
             if (selectedSalsas.length > 0) {
-                document.getElementById('summary-salsas').textContent = selectedSalsas.join(', ');
+                let salsasText = selectedSalsas.join(', ');
+                if (selectedSalsas.length > includedSalsas) {
+                    salsasText += ` (${includedSalsas} incluidas, ${additional.salsas} adicionales)`;
+                } else {
+                    salsasText += ` (${selectedSalsas.length}/${includedSalsas} incluidas)`;
+                }
+                document.getElementById('summary-salsas').textContent = salsasText;
             } else {
-                document.getElementById('summary-salsas').textContent = 'Sin seleccionar';
+                document.getElementById('summary-salsas').textContent = `0/${includedSalsas} seleccionadas`;
             }
         }
         
@@ -710,41 +814,82 @@
                 return;
             }
             
+            const additional = getAdditionalItems();
+            const includedProteins = parseInt(selectedPikada.proteins);
+            const includedGuarniciones = parseInt(selectedPikada.guarniciones);
+            const includedEnsaladas = parseInt(selectedPikada.ensaladas);
+            const includedSalsas = parseInt(selectedPikada.salsas);
+            
             let total = selectedPikada.price;
             let message = `🍽️ *${selectedPikada.name}*\n\n`;
-            message += `*Precio Base:* $${selectedPikada.price.toLocaleString()}\n\n`;
+            message += `*Precio Base:* $${selectedPikada.price.toLocaleString()}\n`;
+            message += `*Incluye:* ${includedProteins} Proteínas, ${includedGuarniciones} Guarniciones, ${includedEnsaladas} Ensalada(s), ${includedSalsas} Salsa(s)\n\n`;
             
-            // Proteínas adicionales
+            // Proteínas
             if (selectedProteins.length > 0) {
-                message += `*Proteínas Adicionales:*\n`;
-                selectedProteins.forEach(protein => {
-                    total += protein.price;
-                    message += `${protein.name} (+$${protein.price.toLocaleString()})\n`;
+                message += `*Proteínas Seleccionadas:*\n`;
+                selectedProteins.forEach((protein, index) => {
+                    const isIncluded = index < includedProteins;
+                    if (isIncluded) {
+                        message += `${protein.name} (incluida)\n`;
+                    } else {
+                        total += protein.price;
+                        message += `${protein.name} (adicional +$${protein.price.toLocaleString()})\n`;
+                    }
                 });
                 message += `\n`;
             } else {
-                message += `*Proteínas Adicionales:*\nNinguna\n\n`;
+                message += `*Proteínas:*\n0/${includedProteins} seleccionadas\n\n`;
             }
             
             // Guarniciones
             if (selectedGuarniciones.length > 0) {
-                message += `*Guarniciones:*\n${selectedGuarniciones.join(', ')}\n\n`;
+                message += `*Guarniciones Seleccionadas:*\n`;
+                selectedGuarniciones.forEach((guarnicion, index) => {
+                    const isIncluded = index < includedGuarniciones;
+                    if (isIncluded) {
+                        message += `${guarnicion} (incluida)\n`;
+                    } else {
+                        total += ADDITIONAL_GUARNICION_PRICE;
+                        message += `${guarnicion} (adicional +$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})\n`;
+                    }
+                });
+                message += `\n`;
             } else {
-                message += `*Guarniciones:*\nSin seleccionar\n\n`;
+                message += `*Guarniciones:*\n0/${includedGuarniciones} seleccionadas\n\n`;
             }
             
             // Ensaladas
             if (selectedEnsaladas.length > 0) {
-                message += `*Ensaladas:*\n${selectedEnsaladas.join(', ')}\n\n`;
+                message += `*Ensaladas Seleccionadas:*\n`;
+                selectedEnsaladas.forEach((ensalada, index) => {
+                    const isIncluded = index < includedEnsaladas;
+                    if (isIncluded) {
+                        message += `${ensalada} (incluida)\n`;
+                    } else {
+                        total += ADDITIONAL_ENSALADA_PRICE;
+                        message += `${ensalada} (adicional +$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})\n`;
+                    }
+                });
+                message += `\n`;
             } else {
-                message += `*Ensaladas:*\nSin seleccionar\n\n`;
+                message += `*Ensaladas:*\n0/${includedEnsaladas} seleccionadas\n\n`;
             }
             
             // Salsas
             if (selectedSalsas.length > 0) {
-                message += `*Salsas:*\n${selectedSalsas.join(', ')}\n\n`;
+                message += `*Salsas Seleccionadas:*\n`;
+                selectedSalsas.forEach((salsa, index) => {
+                    const isIncluded = index < includedSalsas;
+                    if (isIncluded) {
+                        message += `${salsa} (incluida)\n`;
+                    } else {
+                        message += `${salsa} (adicional)\n`;
+                    }
+                });
+                message += `\n`;
             } else {
-                message += `*Salsas:*\nSin seleccionar\n\n`;
+                message += `*Salsas:*\n0/${includedSalsas} seleccionadas\n\n`;
             }
             
             message += `━━━━━━━━━━━━━━━━━━━━\n`;
