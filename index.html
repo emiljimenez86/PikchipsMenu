@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PikChips">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Menú digital de PikChips">
+    
+
+    <title>PikChips</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="image/PikMenu.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="image/PikMenu.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="image/PikMenu.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="image/PikMenu.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="image/PikMenu.png" as="image">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+</head>
+<body>
+    <!-- Install Button for Android -->
+    <button id="installBtn" class="btn btn-warning" style="display: none; position: fixed; top: 10px; right: 10px; z-index: 1000; padding: 10px 20px; border-radius: 25px; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.3); color: #000;">
+        <i class="fas fa-download"></i> Instalar App
+    </button>
+
+    <!-- Install Banner for iPhone -->
+    <div id="ios-install-banner" class="install-banner" style="display: none;">
+        <div class="install-content">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Para instalar esta app en iPhone:</span>
+        </div>
+        <div class="install-steps">
+            <div class="step">
+                <span class="step-number">1</span>
+                <span>Toca Compartir (<i class="fas fa-share"></i>)</span>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <span>Selecciona "Agregar a inicio"</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <span>Toca "Agregar". Y así de fácil te llevas nuestro Menú</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image">
+            </div>
+            <div class="brand-text">
+                <h1>NUESTRO MENÚ</h1>
+                <div class="tagline">Elige tu opción favorita</div>
+            </div>
+        </div>
+        <h2 class="menu-title">Horario</h2>
+        <p class="hours">Todos los días de 5 PM a 12 AM</p>
+    </header>
+
+    <!-- Menu Categories - Solo las categorías de las imágenes -->
+    <section class="menu-categories">
+        <div class="category-grid">
+            <a href="#pikadas.html" class="category-btn">
+                <i class="fas fa-utensils"></i>
+                <span>PIKADAS</span>
+            </a>
+            <a href="#pik-parrilla.html" class="category-btn">
+                <i class="fas fa-fire"></i>
+                <span>PIK PARRILLA</span>
+            </a>
+            <a href="pikburguer.html" class="category-btn">
+                <i class="fas fa-hamburger"></i>
+                <span>PIKBURGUER</span>
+            </a>
+            <a href="#pikpapas.html" class="category-btn">
+                <i class="fas fa-french-fries"></i>
+                <span>PIKPAPAS</span>
+            </a>
+            <a href="#pikono.html" class="category-btn">
+                <i class="fas fa-cone"></i>
+                <span>PIKONO</span>
+            </a>
+            <a href="#pataconchips.html" class="category-btn">
+                <i class="fas fa-leaf"></i>
+                <span>PATACONCHIPS</span>
+            </a>
+            <a href="#pikazuela.html" class="category-btn">
+                <i class="fas fa-bowl-food"></i>
+                <span>PIKAZUELA</span>
+            </a>
+            <a href="#pikchuleta.html" class="category-btn">
+                <i class="fas fa-drumstick-bite"></i>
+                <span>PIKCHULETA</span>
+            </a>
+            <a href="#chips-carnitas.html" class="category-btn">
+                <i class="fas fa-bacon"></i>
+                <span>CHIPS CARNITAS</span>
+            </a>
+            <a href="#bebidas.html" class="category-btn">
+                <i class="fas fa-glass-whiskey"></i>
+                <span>BEBIDAS</span>
+            </a>
+        </div>
+    </section>
+
+
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="address">
+            <h3>Dirección</h3>
+            <a href="https://maps.app.goo.gl/FYZQf1QCBQcVHZ1x8" target="_blank" style="text-decoration: none; color: inherit;">
+                <p><i class="fas fa-map-marker-alt"></i> Cra 15 Calle 16 Barrio el Centenario. Caucasia Antioquia</p>
+            </a>
+        </div>
+        <div class="contact">
+            <h3>Contáctanos</h3>
+            <div class="contact-icons">
+                <a href="tel:+573218221222" class="contact-icon phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://www.instagram.com/pikchips_/" class="contact-icon facebook">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                            <a href="https://wa.me/+573218221222" class="contact-icon whatsapp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 PikChips. Todos los derechos reservados.</p>
+        <p>Emil Jiménez Ortiz - Desarrollador Web</p>
+        <a href="https://wa.me/+573192364724?text=Hola,%20quiero%20mi%20propio%20menú%20digital." class="btn btn-success" target="_blank" style="text-decoration: none; display: inline-block; margin-top: 15px; padding: 8px 18px; border-radius: 20px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; background: #4caf50; color: white; border: none;">
+            <i class="fab fa-whatsapp"></i> Contáctame
+        </a>
+    </footer>
+
+    <script src="script.js"></script>
+    
+    <!-- PWA Installation Script -->
+    <script>
+        // PWA Installation Logic
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const iosInstallBanner = document.getElementById('ios-install-banner');
+
+        // Detect device type
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+        console.log('Device detection:', { isIOS, isAndroid, isStandalone });
+
+        // Show appropriate installation method based on device
+        if (isIOS && !isStandalone) {
+            // Show iOS installation banner
+            iosInstallBanner.style.display = 'block';
+            console.log('iOS device detected - showing iOS installation banner');
+        } else if (isAndroid && !isStandalone) {
+            // For Android, we'll show a manual install button if beforeinstallprompt doesn't fire
+            console.log('Android device detected - waiting for install prompt');
+            
+            // Show manual install instructions for Android after a delay
+            setTimeout(() => {
+                if (!deferredPrompt && !isStandalone) {
+                    installBtn.style.display = 'block';
+                    installBtn.innerHTML = '<i class="fas fa-info-circle"></i> Instalar App';
+                    installBtn.className = 'btn btn-info';
+                    console.log('Showing manual Android install button');
+                }
+            }, 3000);
+        } else {
+            // Desktop or other devices
+            console.log('Desktop or other device detected');
+        }
+
+        // Listen for the beforeinstallprompt event (Android)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt event fired');
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+                         // Show the install button for Android
+             if (isAndroid && !isStandalone) {
+                 installBtn.style.display = 'block';
+                 installBtn.innerHTML = '<i class="fas fa-download"></i> Instalar App';
+                 installBtn.className = 'btn btn-warning';
+                 installBtn.style.color = '#000';
+                 console.log('Android install prompt available - showing install button');
+             }
+        });
+
+        // Install button click handler (Android)
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                // Clear the deferredPrompt variable
+                deferredPrompt = null;
+                // Hide the install button
+                installBtn.style.display = 'none';
+            } else {
+                // Manual install instructions for Android
+                alert('Para instalar esta app en Android:\n\n1. Toca el menú (⋮) en Chrome\n2. Selecciona "Instalar app"\n3. Confirma la instalación');
+            }
+        });
+
+        // Listen for successful installation
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('App was installed');
+            installBtn.style.display = 'none';
+            iosInstallBanner.style.display = 'none';
+        });
+
+        // Service Worker Registration with Update Detection
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                        
+                        // Check for updates every time the page loads
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New content is available, show update notification
+                                    showUpdateNotification();
+                                }
+                            });
+                        });
+                        
+                        // Check for updates immediately
+                        registration.update();
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Show update notification
+        function showUpdateNotification() {
+            const updateBanner = document.createElement('div');
+            updateBanner.id = 'update-banner';
+            updateBanner.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #ff6b35, #f7931e);
+                color: white;
+                padding: 15px;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+            `;
+            
+            updateBanner.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+                    <i class="fas fa-sync-alt" style="animation: spin 2s linear infinite;"></i>
+                    <span>¡Nueva versión disponible!</span>
+                    <button onclick="updateApp()" style="
+                        background: white;
+                        color: #ff6b35;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 20px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        Actualizar
+                    </button>
+                    <button onclick="dismissUpdate()" style="
+                        background: transparent;
+                        color: white;
+                        border: 1px solid white;
+                        padding: 8px 12px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        font-size: 16px;
+                    ">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(updateBanner);
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Update app function
+        function updateApp() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration().then((registration) => {
+                    if (registration && registration.waiting) {
+                        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        // Dismiss update notification
+        function dismissUpdate() {
+            const banner = document.getElementById('update-banner');
+            if (banner) {
+                banner.remove();
+            }
+        }
+
+        // Debug information
+        console.log('PWA Installation Script loaded');
+        console.log('User Agent:', navigator.userAgent);
+        console.log('Display Mode:', window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser');
+    </script>
+</body>
+</html> 

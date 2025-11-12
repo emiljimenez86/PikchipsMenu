@@ -1,0 +1,39 @@
+{
+  "name": "PikChips",
+  "short_name": "PikChips",
+  "description": "Menú digital de PikChips",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#022407",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "lang": "es",
+  "categories": ["food", "restaurant", "lifestyle"],
+  "icons": [
+    {
+      "src": "image/LogoHungerFood.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "image/LogoHungerFood.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "image/LogoHungerFood.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "image/LogoHungerFood.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}
+  
