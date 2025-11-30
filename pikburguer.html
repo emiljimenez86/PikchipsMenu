@@ -33,12 +33,12 @@
         
         .dish-image {
             width: 100%;
-            max-width: 500px;
-            height: auto;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
             border-radius: 15px;
-            margin: 20px auto;
-            display: block;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            border: 3px solid #d32f2f;
         }
         
         .dish-title {
@@ -200,6 +200,16 @@
             background: rgba(76, 175, 80, 0.2);
         }
         
+        .protein-card.selected.exceeded {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .option-card.selected.exceeded {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
         .protein-name {
             color: #ffffff;
             font-weight: 600;
@@ -293,7 +303,7 @@
     <header class="category-header">
         <div class="logo-container">
             <div class="logo">
-                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image">
+                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image" decoding="async" fetchpriority="high">
             </div>
             <div class="brand-text">
                 <h1>PIKBURGUER</h1>
@@ -305,7 +315,7 @@
     <!-- Dish Details -->
     <main class="menu-content">
         <div class="dish-details">
-            <img src="imageProductos/Hamburguesa.jpg" alt="PIKBURGUER" class="dish-image">
+            <img src="imageProductos/Hamburguesa.jpg" alt="PIKBURGUER" class="dish-image" loading="lazy" decoding="async">
             
             <h2 class="dish-title">PIKBURGUER</h2>
             
@@ -543,10 +553,14 @@
         function renderGuarniciones() {
             const container = document.getElementById('guarnicion-selector');
             container.innerHTML = guarniciones.map(item => {
-                const isSelected = selectedGuarniciones.includes(item);
+                const itemIndex = selectedGuarniciones.indexOf(item);
+                const isSelected = itemIndex > -1;
+                const isExceeded = isSelected && itemIndex >= INCLUDED_GUARNICIONES;
+                const isIncluded = isSelected && itemIndex < INCLUDED_GUARNICIONES;
+                
                 return `
-                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleGuarnicion('${item}')">
-                        ${item}
+                    <div class="option-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" onclick="toggleGuarnicion('${item}')">
+                        ${item}${isIncluded ? ' <span style="color: #4caf50; font-size: 0.8em;">(Incluida)</span>' : isExceeded ? ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})</span>` : ''}
                     </div>
                 `;
             }).join('');
@@ -567,9 +581,12 @@
         function renderEnsaladas() {
             const container = document.getElementById('ensalada-selector');
             container.innerHTML = ensaladas.map(item => {
-                const isSelected = selectedEnsaladas.includes(item);
+                const itemIndex = selectedEnsaladas.indexOf(item);
+                const isSelected = itemIndex > -1;
+                const isExceeded = isSelected && itemIndex >= INCLUDED_ENSALADAS;
+                
                 return `
-                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleEnsalada('${item}')">
+                    <div class="option-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" onclick="toggleEnsalada('${item}')">
                         ${item}
                     </div>
                 `;

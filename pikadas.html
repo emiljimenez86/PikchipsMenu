@@ -188,6 +188,16 @@
             background: rgba(76, 175, 80, 0.2);
         }
         
+        .protein-card.selected.exceeded {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .option-card.selected.exceeded {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
         .protein-name {
             color: #ffffff;
             font-weight: 600;
@@ -275,7 +285,7 @@
     <header class="category-header">
         <div class="logo-container">
             <div class="logo">
-                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image">
+                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image" decoding="async" fetchpriority="high">
             </div>
             <div class="brand-text">
                 <h1>PIKADAS</h1>
@@ -287,7 +297,7 @@
     <!-- Dish Details -->
     <main class="menu-content">
         <div class="dish-details">
-            <img src="imageProductos/Picada.jpg" alt="PIKADAS" class="dish-image" id="pikada-image">
+            <img src="imageProductos/Picada.jpg" alt="PIKADAS" class="dish-image" id="pikada-image" loading="lazy" decoding="async">
             
             <h2 class="dish-title">PIKADAS</h2>
             
@@ -569,13 +579,19 @@
         // Renderizar proteínas
         function renderProteins() {
             const selector = document.getElementById('protein-selector');
+            const includedProteins = selectedPikada ? parseInt(selectedPikada.proteins) : 0;
+            
             selector.innerHTML = proteins.map(protein => {
-                const isSelected = selectedProteins.some(p => p.name === protein.name);
+                const proteinIndex = selectedProteins.findIndex(p => p.name === protein.name);
+                const isSelected = proteinIndex > -1;
+                const isExceeded = isSelected && proteinIndex >= includedProteins;
+                const isIncluded = isSelected && proteinIndex < includedProteins;
+                
                 return `
-                    <div class="protein-card ${isSelected ? 'selected' : ''}" 
+                    <div class="protein-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" 
                          onclick="toggleProtein('${protein.name}', ${protein.price})">
                         <div class="protein-name">${protein.name}</div>
-                        <div class="protein-price">+$${protein.price.toLocaleString()}</div>
+                        <div class="protein-price">${isIncluded ? '<span style="color: #4caf50;">Incluida</span>' : isExceeded ? `<span style="color: #ffcdd2;">+$${protein.price.toLocaleString()}</span>` : `+$${protein.price.toLocaleString()}`}</div>
                     </div>
                 `;
             }).join('');
@@ -597,11 +613,17 @@
         // Renderizar guarniciones
         function renderGuarniciones() {
             const container = document.getElementById('guarnicion-selector');
+            const includedGuarniciones = selectedPikada ? parseInt(selectedPikada.guarniciones) : 0;
+            
             container.innerHTML = guarniciones.map(item => {
-                const isSelected = selectedGuarniciones.includes(item);
+                const itemIndex = selectedGuarniciones.indexOf(item);
+                const isSelected = itemIndex > -1;
+                const isExceeded = isSelected && itemIndex >= includedGuarniciones;
+                const isIncluded = isSelected && itemIndex < includedGuarniciones;
+                
                 return `
-                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleGuarnicion('${item}')">
-                        ${item}
+                    <div class="option-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" onclick="toggleGuarnicion('${item}')">
+                        ${item}${isIncluded ? ' <span style="color: #4caf50; font-size: 0.8em;">(Incluida)</span>' : isExceeded ? ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})</span>` : ''}
                     </div>
                 `;
             }).join('');
@@ -623,11 +645,17 @@
         // Renderizar ensaladas
         function renderEnsaladas() {
             const container = document.getElementById('ensalada-selector');
+            const includedEnsaladas = selectedPikada ? parseInt(selectedPikada.ensaladas) : 0;
+            
             container.innerHTML = ensaladas.map(item => {
-                const isSelected = selectedEnsaladas.includes(item);
+                const itemIndex = selectedEnsaladas.indexOf(item);
+                const isSelected = itemIndex > -1;
+                const isExceeded = isSelected && itemIndex >= includedEnsaladas;
+                const isIncluded = isSelected && itemIndex < includedEnsaladas;
+                
                 return `
-                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleEnsalada('${item}')">
-                        ${item}
+                    <div class="option-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" onclick="toggleEnsalada('${item}')">
+                        ${item}${isIncluded ? ' <span style="color: #4caf50; font-size: 0.8em;">(Incluida)</span>' : isExceeded ? ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})</span>` : ''}
                     </div>
                 `;
             }).join('');
