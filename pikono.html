@@ -427,6 +427,15 @@
                 <h4><i class="fas fa-pepper-hot"></i> Elige tus Salsas</h4>
                 <div class="salsa-container" id="salsa-selector"></div>
             </div>
+            <div class="selection-group">
+                <h4><i class="fas fa-glass-whiskey"></i> Sabor de Gaseosa</h4>
+                <p style="color: #cccccc; text-align: center; font-size: 0.85rem; margin-bottom: 10px; font-style: italic;">
+                    Escribe el sabor de gaseosa que deseas
+                </p>
+                <input type="text" id="gaseosa-sabor" placeholder="Ejemplo: Coca-cola" 
+                       style="width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #3a3a3a; background: #2a2a2a; color: #ffffff; font-size: 1rem; text-align: center;"
+                       oninput="updateSummary()">
+            </div>
             
             <!-- Resumen de Selección -->
             <div class="selection-summary" id="selection-summary" style="background: #2a2a2a; padding: 20px; border-radius: 15px; border: 2px solid #ff6b35; margin-top: 30px; margin-bottom: 20px;">
@@ -439,6 +448,7 @@
                     <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Guarnición:</strong> <span id="summary-guarnicion">-</span></p>
                     <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Ensalada:</strong> <span id="summary-ensalada">-</span></p>
                     <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Salsas:</strong> <span id="summary-salsas">Sin seleccionar</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Gaseosa:</strong> <span id="summary-gaseosa">-</span></p>
                 </div>
             </div>
             
@@ -580,6 +590,7 @@
         let selectedGuarnicion = "Papa Francesa"; // Por defecto la incluida
         let selectedEnsalada = ensaladas[0];
         let selectedSalsas = [];
+        let gaseosaSabor = "";
         
         // Precios
         const GUARNICION_PRICE = 6000;
@@ -888,6 +899,16 @@
             } else {
                 document.getElementById('summary-salsas').textContent = 'Sin seleccionar';
             }
+            
+            // Resumen de Gaseosa
+            const gaseosaInput = document.getElementById('gaseosa-sabor');
+            if (gaseosaInput && gaseosaInput.value.trim()) {
+                gaseosaSabor = gaseosaInput.value.trim();
+                document.getElementById('summary-gaseosa').innerHTML = `<span style="color: #4caf50;">${gaseosaSabor} (Incluida)</span>`;
+            } else {
+                gaseosaSabor = "";
+                document.getElementById('summary-gaseosa').textContent = '-';
+            }
         }
         
         function sendOrder() {
@@ -956,6 +977,15 @@
             
             const salsaText = selectedSalsas.length > 0 ? selectedSalsas.join(', ') : 'Sin seleccionar';
             message += `*Salsas:* ${salsaText}\n`;
+            
+            // Agregar sabor de gaseosa
+            const gaseosaInput = document.getElementById('gaseosa-sabor');
+            if (gaseosaInput && gaseosaInput.value.trim()) {
+                gaseosaSabor = gaseosaInput.value.trim();
+                message += `*Gaseosa:* ${gaseosaSabor} (incluida)\n`;
+            } else {
+                message += `*Gaseosa:* Sin especificar (incluida)\n`;
+            }
             
             message += `\n*Total: $${total.toLocaleString()}*\n\n`;
             message += '¿Deseas realizar este pedido?';

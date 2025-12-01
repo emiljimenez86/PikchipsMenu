@@ -21,6 +21,157 @@
     <link rel="icon" type="image/png" sizes="192x192" href="image/PikMenu.png">
     <link rel="apple-touch-icon" sizes="180x180" href="image/PikMenu.png">
     <link rel="manifest" href="manifest.json">
+    
+    <style>
+        /* Cambiar colores rojos por amarillos en CERVEZAS */
+        .menu-item {
+            border-left: 4px solid #ffeb3b !important;
+        }
+        
+        .item-details h3 {
+            color: #ffeb3b !important;
+        }
+        
+        .item-details .price {
+            background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
+            color: #000000 !important;
+            box-shadow: 
+                0 8px 16px rgba(255, 235, 59, 0.4),
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .item-details .price:hover {
+            box-shadow: 
+                0 12px 24px rgba(255, 235, 59, 0.5),
+                0 6px 12px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .item-info h3 {
+            color: #ffeb3b !important;
+        }
+        
+        .price {
+            background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
+            color: #000000 !important;
+            box-shadow: 
+                0 6px 12px rgba(255, 235, 59, 0.4),
+                0 3px 6px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .price:hover {
+            box-shadow: 
+                0 10px 20px rgba(255, 235, 59, 0.5),
+                0 5px 10px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .back-navigation {
+            border-bottom: 2px solid #ffeb3b !important;
+        }
+        
+        .back-btn {
+            background: #ffeb3b !important;
+            color: #000000 !important;
+            box-shadow: 0 4px 15px rgba(255, 235, 59, 0.3) !important;
+        }
+        
+        .back-btn:hover {
+            background: #fdd835 !important;
+            box-shadow: 0 6px 20px rgba(255, 235, 59, 0.4) !important;
+            color: #000000 !important;
+        }
+        
+        .category-header {
+            border-bottom: 3px solid #ffeb3b !important;
+        }
+        
+        .category-header .brand-text h1 i {
+            color: #ffeb3b !important;
+        }
+        
+        .address i {
+            color: #ffeb3b !important;
+        }
+        
+        @media (max-width: 768px) {
+            .item-details h3 {
+                color: #ffeb3b !important;
+            }
+            
+            .item-details .price {
+                background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
+                color: #000000 !important;
+                box-shadow: 
+                    0 6px 12px rgba(255, 235, 59, 0.4),
+                    0 3px 6px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+            }
+            
+            .item-details .price:hover {
+                box-shadow: 
+                    0 8px 16px rgba(255, 235, 59, 0.5),
+                    0 4px 8px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .item-details h3 {
+                color: #ffeb3b !important;
+            }
+            
+            .item-details .price {
+                background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
+                color: #000000 !important;
+                box-shadow: 
+                    0 4px 8px rgba(255, 235, 59, 0.4),
+                    0 2px 4px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+            }
+            
+            .item-details .price:hover {
+                box-shadow: 
+                    0 6px 12px rgba(255, 235, 59, 0.5),
+                    0 3px 6px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .item-details h3 {
+                color: #ffeb3b !important;
+            }
+            
+            .item-details .price {
+                background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
+                color: #000000 !important;
+                box-shadow: 
+                    0 3px 6px rgba(255, 235, 59, 0.4),
+                    0 2px 4px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+            }
+            
+            .item-details .price:hover {
+                box-shadow: 
+                    0 5px 10px rgba(255, 235, 59, 0.5),
+                    0 3px 6px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Back Navigation -->
@@ -34,7 +185,7 @@
     <header class="category-header">
         <div class="logo-container">
             <div class="logo">
-                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image">
+                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image" decoding="async" fetchpriority="high">
             </div>
             <div class="brand-text">
                 <h1>CERVEZAS</h1>

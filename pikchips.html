@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PikChips">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="PIK CHIPS - PikChips">
+    
+    <title>PIK CHIPS - PikChips</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="image/PikMenu.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="image/PikMenu.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        .dish-details {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .dish-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 3px solid #d32f2f;
+        }
+        
+        .dish-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .dish-includes {
+            background: rgba(255, 235, 59, 0.1);
+            border: 2px solid rgba(255, 235, 59, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .dish-includes h4 {
+            color: #ffeb3b;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .dish-includes ul {
+            list-style: none;
+            padding: 0;
+            color: #ffffff;
+        }
+        
+        .dish-includes li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .dish-includes li:last-child {
+            border-bottom: none;
+        }
+        
+        .dish-includes li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .selection-group {
+            margin-top: 25px;
+        }
+
+        .selection-group h4 {
+            color: #ffeb3b;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .option-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .option-card {
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 10px;
+            padding: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .option-card:hover {
+            border-color: #ff6b35;
+            transform: translateY(-3px);
+        }
+
+        .option-card.selected {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+
+        .salsa-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .option-chip {
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .option-chip {
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .option-chip:hover {
+            transform: scale(1.05);
+            opacity: 0.9 !important;
+        }
+        
+        .protein-card.selected.exceeded {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .option-card.selected.exceeded {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .base-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 235, 59, 0.1);
+            border-radius: 10px;
+        }
+        
+        .build-plate-section {
+            background: #1a1a1a;
+            padding: 30px 20px;
+            margin: 30px auto;
+            max-width: 600px;
+            border-radius: 15px;
+            border: 3px solid #ff6b35;
+        }
+        
+        .build-plate-section h3 {
+            color: #ffeb3b;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .protein-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .protein-card {
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .protein-card:hover {
+            border-color: #ff6b35;
+            transform: translateY(-3px);
+        }
+        
+        .protein-card.selected {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        .protein-name {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .protein-price {
+            color: #ffeb3b;
+            font-weight: 700;
+        }
+        
+        .total-price-section {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .total-price-label {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .total-price-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .order-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .order-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .info-text {
+            color: #cccccc;
+            font-size: 0.85rem;
+            text-align: center;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .dish-title {
+                font-size: 2rem;
+            }
+            
+            .protein-selector {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .total-price-amount {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Navigation -->
+    <div class="back-navigation">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Volver al Menú Principal
+        </a>
+    </div>
+
+    <!-- Category Header -->
+    <header class="category-header">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image" decoding="async" fetchpriority="high">
+            </div>
+            <div class="brand-text">
+                <h1>PIK CHIPS</h1>
+                <div class="tagline">Chips con proteínas</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dish Details -->
+    <main class="menu-content">
+        <div class="dish-details">
+            <h2 class="dish-title">PIK CHIPS</h2>
+            
+            <div class="dish-includes">
+                <h4>Incluye:</h4>
+                <ul>
+                    <li>3 Proteínas</li>
+                    <li>1 Guarnición</li>
+                    <li>1 Ensalada</li>
+                    <li>Salsas</li>
+                </ul>
+            </div>
+            
+            <div class="base-price">
+                Precio Base: $27.000
+            </div>
+        </div>
+
+        <!-- Build Your Plate Section -->
+        <div class="build-plate-section">
+            <h3><i class="fas fa-magic"></i> Elige tus Proteínas</h3>
+            <p class="info-text">
+                3 proteínas incluidas. Las adicionales tienen costo.
+            </p>
+            
+            <div class="protein-selector" id="protein-selector">
+                <!-- Proteínas se cargarán con JavaScript -->
+            </div>
+            <div class="selection-group">
+                <h4><i class="fas fa-drumstick-bite"></i> Elige tu Guarnición</h4>
+                <p class="info-text">1 guarnición incluida. Las adicionales: +$6.000 c/u</p>
+                <div class="option-list" id="guarnicion-selector"></div>
+            </div>
+            <div class="selection-group">
+                <h4><i class="fas fa-leaf"></i> Elige tu Ensalada</h4>
+                <p class="info-text">1 ensalada incluida. Las adicionales: +$5.000 c/u</p>
+                <div class="option-list" id="ensalada-selector"></div>
+            </div>
+            <div class="selection-group">
+                <h4><i class="fas fa-pepper-hot"></i> Elige tus Salsas</h4>
+                <div class="salsa-container" id="salsa-selector"></div>
+            </div>
+            
+            <!-- Resumen de Selección -->
+            <div class="selection-summary" id="selection-summary" style="background: #2a2a2a; padding: 20px; border-radius: 15px; border: 2px solid #ff6b35; margin-top: 30px; margin-bottom: 20px;">
+                <h3 style="color: #ffeb3b; margin-bottom: 15px; font-size: 1.3rem; text-align: center;">
+                    <i class="fas fa-list-check" style="margin-right: 8px;"></i>Resumen de tu Pedido
+                </h3>
+                <div id="summary-content" style="color: #ffffff;">
+                    <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Proteínas:</strong> <span id="summary-protein">-</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Guarnición:</strong> <span id="summary-guarnicion">-</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Ensalada:</strong> <span id="summary-ensalada">-</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Salsas:</strong> <span id="summary-salsa">Sin seleccionar</span></p>
+                </div>
+            </div>
+            
+            <div class="total-price-section">
+                <div class="total-price-label">Total a Pagar:</div>
+                <div class="total-price-amount" id="total-price">$27.000</div>
+            </div>
+            
+            <a href="#" class="order-button" id="order-button" onclick="sendOrder(); return false;">
+                <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+            </a>
+        </div>
+    </main>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="address">
+            <h3>Dirección</h3>
+            <a href="https://maps.app.goo.gl/ochgZSWpUc8TR35n7" target="_blank" style="text-decoration: none; color: inherit;">
+                <p><i class="fas fa-map-marker-alt"></i> Calle 22 # 15-33 Barrio el Pajonal Caucasia - Antioquia</p>
+            </a>
+        </div>
+        <div class="contact">
+            <h3>Contáctanos</h3>
+            <div class="contact-icons">
+                <a href="tel:+573218221222" class="contact-icon phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://www.instagram.com/frogg_granizados/" class="contact-icon facebook">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://wa.me/+573218221222" class="contact-icon whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 PikChips. Todos los derechos reservados.</p>
+        <p>Emil Jiménez Ortiz - Desarrollador Web</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const dishData = {
+            name: "PIK CHIPS",
+            basePrice: 27000,
+            includes: [
+                "3 Proteínas",
+                "1 Guarnición",
+                "Salsas"
+            ]
+        };
+        
+        const proteins = [
+            { name: "Chorizo", price: 6000 },
+            { name: "Morcilla", price: 5000 },
+            { name: "Pechitos", price: 7000 },
+            { name: "Ranchera", price: 6000 },
+            { name: "Tocineta", price: 5000 },
+            { name: "Butifarra", price: 4000 },
+            { name: "Albóndigas", price: 6000 },
+            { name: "Chinchurria", price: 6000 },
+            { name: "Desmechada de Res", price: 7000 },
+            { name: "Desmechada de Pollo", price: 6000 },
+            { name: "Chicharrón Crocante", price: 7000 },
+            { name: "Salchicha Premium Zenú", price: 5000 },
+            { name: "Deditos de Pollo Apanado", price: 6000 },
+            { name: "Trocitos de Queso Frito", price: 5000 },
+            { name: "Trocitos de Res Asados", price: 7000 },
+            { name: "Trocitos de Res Encebollados", price: 7000 },
+            { name: "Trocitos de Pollo Asados", price: 6000 },
+            { name: "Trocitos de Pollo Encebollados", price: 6000 },
+            { name: "Trocitos de Cerdo Asados", price: 6000 },
+            { name: "Trocitos de Cerdo Encebollados", price: 6000 }
+        ];
+        const guarniciones = [
+            "Papa Cascos",
+            "Papa Criolla",
+            "Papa Francesa",
+            "Huevo de Codorniz",
+            "Arroz",
+            "Yuca",
+            "Patacón",
+            "Maicitos"
+        ];
+        const ensaladas = [
+            "Sin ensalada",
+            "Dulce",
+            "Rusa",
+            "Verde"
+        ];
+        const salsas = [
+            "Tomate",
+            "BBQ",
+            "Piña",
+            "Maíz",
+            "Mostaza",
+            "Miel Mostaza",
+            "Mayonesa",
+            "Guacamole",
+            "Ajo",
+            "Showy",
+            "Tártara",
+            "Rosada"
+        ];
+        
+        // Colores para cada salsa
+        const salsaColors = {
+            "Tomate": { bg: "#dc2626", border: "#b91c1c", text: "#ffffff" },
+            "BBQ": { bg: "#991b1b", border: "#7f1d1d", text: "#ffffff" },
+            "Piña": { bg: "#fbbf24", border: "#f59e0b", text: "#000000" },
+            "Maíz": { bg: "#fde047", border: "#facc15", text: "#000000" },
+            "Mostaza": { bg: "#eab308", border: "#ca8a04", text: "#000000" },
+            "Miel Mostaza": { bg: "#facc15", border: "#eab308", text: "#000000" },
+            "Mayonesa": { bg: "#fef3c7", border: "#fde68a", text: "#000000" },
+            "Guacamole": { bg: "#16a34a", border: "#15803d", text: "#ffffff" },
+            "Ajo": { bg: "#f5f5f4", border: "#e7e5e4", text: "#000000" },
+            "Showy": { bg: "#ef4444", border: "#dc2626", text: "#ffffff" },
+            "Tártara": { bg: "#fef2f2", border: "#fee2e2", text: "#000000" },
+            "Rosada": { bg: "#fda4af", border: "#fb7185", text: "#000000" }
+        };
+        
+        // Precios de opciones adicionales
+        const ADDITIONAL_GUARNICION_PRICE = 6000;
+        const ADDITIONAL_ENSALADA_PRICE = 5000;
+        
+        // Cantidades incluidas
+        const INCLUDED_PROTEINS = 3;
+        const INCLUDED_GUARNICIONES = 1;
+        const INCLUDED_ENSALADAS = 1;
+        
+        let selectedProteins = [];
+        let selectedGuarniciones = []; // Sin selección por defecto - el cliente debe elegir
+        let selectedEnsaladas = []; // Sin selección por defecto - el cliente debe elegir
+        let selectedSalsas = [];
+        
+        function renderProteins() {
+            const selector = document.getElementById('protein-selector');
+            selector.innerHTML = proteins.map(protein => {
+                const itemIndex = selectedProteins.findIndex(p => p.name === protein.name);
+                const isSelected = itemIndex > -1;
+                const isExceeded = isSelected && itemIndex >= INCLUDED_PROTEINS;
+                const isIncluded = isSelected && itemIndex < INCLUDED_PROTEINS;
+                
+                let priceDisplay = '';
+                if (isIncluded) {
+                    priceDisplay = '<span style="color: #4caf50;">(Incluida)</span>';
+                } else if (isExceeded) {
+                    priceDisplay = `<span style="color: #ffcdd2;">+$${protein.price.toLocaleString()}</span>`;
+                } else {
+                    priceDisplay = `+$${protein.price.toLocaleString()}`;
+                }
+                
+                return `
+                    <div class="protein-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" 
+                         onclick="toggleProtein('${protein.name}', ${protein.price})">
+                        <div class="protein-name">${protein.name}</div>
+                        <div class="protein-price">${priceDisplay}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function toggleProtein(name, price) {
+            const index = selectedProteins.findIndex(p => p.name === name);
+            if (index > -1) {
+                // Deseleccionar
+                selectedProteins.splice(index, 1);
+            } else {
+                // Seleccionar
+                selectedProteins.push({ name, price });
+            }
+            renderProteins();
+            updateTotal();
+            updateSummary();
+        }
+
+        function renderGuarniciones() {
+            const container = document.getElementById('guarnicion-selector');
+            container.innerHTML = guarniciones.map(item => {
+                const itemIndex = selectedGuarniciones.indexOf(item);
+                const isSelected = itemIndex > -1;
+                const isExceeded = isSelected && itemIndex >= INCLUDED_GUARNICIONES;
+                const isIncluded = isSelected && itemIndex < INCLUDED_GUARNICIONES;
+                
+                return `
+                    <div class="option-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" onclick="toggleGuarnicion('${item}')">
+                        ${item}${isIncluded ? ' <span style="color: #4caf50; font-size: 0.8em;">(Incluida)</span>' : isExceeded ? ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})</span>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleGuarnicion(name) {
+            const index = selectedGuarniciones.indexOf(name);
+            if (index > -1) {
+                selectedGuarniciones.splice(index, 1);
+            } else {
+                selectedGuarniciones.push(name);
+            }
+            renderGuarniciones();
+            updateTotal();
+            updateSummary();
+        }
+
+        function renderEnsaladas() {
+            const container = document.getElementById('ensalada-selector');
+            container.innerHTML = ensaladas.map(item => {
+                // "Sin ensalada" no cuenta como selección
+                if (item === "Sin ensalada") {
+                    const isSelected = selectedEnsaladas.length === 0 || (selectedEnsaladas.length === 1 && selectedEnsaladas[0] === "Sin ensalada");
+                    return `
+                        <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleEnsalada('${item}')">
+                            ${item}
+                        </div>
+                    `;
+                }
+                
+                const itemIndex = selectedEnsaladas.indexOf(item);
+                const isSelected = itemIndex > -1;
+                const isExceeded = isSelected && itemIndex >= INCLUDED_ENSALADAS;
+                const isIncluded = isSelected && itemIndex < INCLUDED_ENSALADAS;
+                
+                return `
+                    <div class="option-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" onclick="toggleEnsalada('${item}')">
+                        ${item}${isIncluded ? ' <span style="color: #4caf50; font-size: 0.8em;">(Incluida)</span>' : isExceeded ? ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})</span>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleEnsalada(name) {
+            if (name === "Sin ensalada") {
+                selectedEnsaladas = [];
+            } else {
+                const index = selectedEnsaladas.indexOf(name);
+                if (index > -1) {
+                    selectedEnsaladas.splice(index, 1);
+                } else {
+                    // Remover "Sin ensalada" si existe
+                    const sinEnsaladaIndex = selectedEnsaladas.indexOf("Sin ensalada");
+                    if (sinEnsaladaIndex > -1) {
+                        selectedEnsaladas.splice(sinEnsaladaIndex, 1);
+                    }
+                    selectedEnsaladas.push(name);
+                }
+            }
+            renderEnsaladas();
+            updateTotal();
+            updateSummary();
+        }
+
+        function renderSalsas() {
+            const container = document.getElementById('salsa-selector');
+            container.innerHTML = salsas.map(item => {
+                const isSelected = selectedSalsas.includes(item);
+                const colors = salsaColors[item] || { bg: "#2a2a2a", border: "#3a3a3a", text: "#ffffff" };
+                return `
+                    <div class="option-chip ${isSelected ? 'selected' : ''}" 
+                         onclick="toggleSalsa('${item}')"
+                         style="background: ${colors.bg}; border-color: ${colors.border}; color: ${colors.text}; ${isSelected ? 'opacity: 1; transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-weight: 600;' : 'opacity: 0.7;'}">
+                        ${item}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSalsa(name) {
+            if (selectedSalsas.includes(name)) {
+                selectedSalsas = selectedSalsas.filter(item => item !== name);
+            } else {
+                selectedSalsas.push(name);
+            }
+            renderSalsas();
+            updateSummary();
+        }
+        
+        function updateTotal() {
+            const totalPriceEl = document.getElementById('total-price');
+            let total = dishData.basePrice;
+            
+            // Sumar proteínas adicionales (más de 3)
+            const additionalProteins = Math.max(0, selectedProteins.length - INCLUDED_PROTEINS);
+            if (additionalProteins > 0) {
+                // Sumar solo las proteínas que exceden las 3 incluidas
+                for (let i = INCLUDED_PROTEINS; i < selectedProteins.length; i++) {
+                    total += selectedProteins[i].price;
+                }
+            }
+            
+            // Sumar guarniciones adicionales
+            const additionalGuarniciones = Math.max(0, selectedGuarniciones.length - INCLUDED_GUARNICIONES);
+            if (additionalGuarniciones > 0) {
+                total += additionalGuarniciones * ADDITIONAL_GUARNICION_PRICE;
+            }
+            
+            // Sumar ensaladas adicionales (excluyendo "Sin ensalada")
+            const ensaladasSeleccionadas = selectedEnsaladas.filter(e => e !== "Sin ensalada");
+            const additionalEnsaladas = Math.max(0, ensaladasSeleccionadas.length - INCLUDED_ENSALADAS);
+            if (additionalEnsaladas > 0) {
+                total += additionalEnsaladas * ADDITIONAL_ENSALADA_PRICE;
+            }
+            
+            totalPriceEl.textContent = `$${total.toLocaleString()}`;
+        }
+        
+        function updateSummary() {
+            // Proteínas
+            const proteinEl = document.getElementById('summary-protein');
+            if (selectedProteins.length > 0) {
+                let proteinsText = '';
+                selectedProteins.forEach((protein, index) => {
+                    if (index < INCLUDED_PROTEINS) {
+                        proteinsText += `${protein.name} <span style="color: #4caf50; font-size: 0.9em;">(Incluida)</span>`;
+                    } else {
+                        proteinsText += `${protein.name} <span style="color: #ffeb3b; font-size: 0.9em;">(+$${protein.price.toLocaleString()})</span>`;
+                    }
+                    if (index < selectedProteins.length - 1) {
+                        proteinsText += ', ';
+                    }
+                });
+                proteinEl.innerHTML = proteinsText;
+            } else {
+                proteinEl.innerHTML = `<span style="color: #999;">0/${INCLUDED_PROTEINS} seleccionadas</span>`;
+            }
+            
+            // Guarniciones
+            const guarnicionEl = document.getElementById('summary-guarnicion');
+            if (selectedGuarniciones.length > 0) {
+                let guarnicionesText = selectedGuarniciones.join(', ');
+                if (selectedGuarniciones.length > INCLUDED_GUARNICIONES) {
+                    const additionalCost = (selectedGuarniciones.length - INCLUDED_GUARNICIONES) * ADDITIONAL_GUARNICION_PRICE;
+                    guarnicionesText += `<br><span style="color: #4caf50; font-size: 0.9em;">${INCLUDED_GUARNICIONES} incluida</span>`;
+                    guarnicionesText += `<br><span style="color: #ffeb3b; font-size: 0.9em;">${selectedGuarniciones.length - INCLUDED_GUARNICIONES} adicionales: +$${additionalCost.toLocaleString()}</span>`;
+                    guarnicionEl.innerHTML = guarnicionesText;
+                } else {
+                    guarnicionesText += ` <span style="color: #4caf50; font-size: 0.9em;">(${selectedGuarniciones.length}/${INCLUDED_GUARNICIONES} incluida - Sin costo adicional)</span>`;
+                    guarnicionEl.innerHTML = guarnicionesText;
+                }
+            } else {
+                guarnicionEl.innerHTML = `<span style="color: #999;">0/${INCLUDED_GUARNICIONES} seleccionadas</span>`;
+            }
+            
+            // Ensaladas
+            const ensaladaEl = document.getElementById('summary-ensalada');
+            const ensaladasSeleccionadas = selectedEnsaladas.filter(e => e !== "Sin ensalada");
+            if (ensaladasSeleccionadas.length > 0) {
+                let ensaladasText = ensaladasSeleccionadas.join(', ');
+                if (ensaladasSeleccionadas.length > INCLUDED_ENSALADAS) {
+                    const additionalCost = (ensaladasSeleccionadas.length - INCLUDED_ENSALADAS) * ADDITIONAL_ENSALADA_PRICE;
+                    ensaladasText += `<br><span style="color: #4caf50; font-size: 0.9em;">${INCLUDED_ENSALADAS} incluida</span>`;
+                    ensaladasText += `<br><span style="color: #ffeb3b; font-size: 0.9em;">${ensaladasSeleccionadas.length - INCLUDED_ENSALADAS} adicionales: +$${additionalCost.toLocaleString()}</span>`;
+                    ensaladaEl.innerHTML = ensaladasText;
+                } else {
+                    ensaladasText += ` <span style="color: #4caf50; font-size: 0.9em;">(${ensaladasSeleccionadas.length}/${INCLUDED_ENSALADAS} incluida - Sin costo adicional)</span>`;
+                    ensaladaEl.innerHTML = ensaladasText;
+                }
+            } else {
+                ensaladaEl.innerHTML = `<span style="color: #999;">Sin ensalada</span>`;
+            }
+            
+            // Salsas
+            const salsaEl = document.getElementById('summary-salsa');
+            if (selectedSalsas.length > 0) {
+                salsaEl.innerHTML = `<span style="color: #ffeb3b;">${selectedSalsas.join(', ')}</span>`;
+            } else {
+                salsaEl.textContent = 'Sin seleccionar';
+            }
+        }
+        
+        function sendOrder() {
+            let total = dishData.basePrice;
+            let message = `🍟 *${dishData.name}*\n\n`;
+            message += `*Precio Base:* $${dishData.basePrice.toLocaleString()}\n\n`;
+            
+            // Proteínas
+            if (selectedProteins.length > 0) {
+                message += `*Proteínas:*\n`;
+                selectedProteins.forEach((protein, index) => {
+                    if (index < INCLUDED_PROTEINS) {
+                        message += `• ${protein.name} (Incluida)\n`;
+                    } else {
+                        total += protein.price;
+                        message += `• ${protein.name}: +$${protein.price.toLocaleString()}\n`;
+                    }
+                });
+            } else {
+                message += `*Proteínas:*\n0/${INCLUDED_PROTEINS} seleccionadas\n`;
+            }
+            message += `\n`;
+            
+            // Guarniciones
+            message += `*Guarniciones:*\n`;
+            selectedGuarniciones.forEach((guarnicion, index) => {
+                if (index < INCLUDED_GUARNICIONES) {
+                    message += `• ${guarnicion} (Incluida)\n`;
+                } else {
+                    total += ADDITIONAL_GUARNICION_PRICE;
+                    message += `• ${guarnicion}: +$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()}\n`;
+                }
+            });
+            message += `\n`;
+            
+            // Ensaladas
+            const ensaladasSeleccionadas = selectedEnsaladas.filter(e => e !== "Sin ensalada");
+            if (ensaladasSeleccionadas.length > 0) {
+                message += `*Ensaladas:*\n`;
+                ensaladasSeleccionadas.forEach((ensalada, index) => {
+                    if (index < INCLUDED_ENSALADAS) {
+                        message += `• ${ensalada} (Incluida)\n`;
+                    } else {
+                        total += ADDITIONAL_ENSALADA_PRICE;
+                        message += `• ${ensalada}: +$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()}\n`;
+                    }
+                });
+            } else {
+                message += `*Ensalada:* Sin ensalada\n`;
+            }
+            message += `\n`;
+            
+            // Salsas
+            const salsaText = selectedSalsas.length > 0 ? selectedSalsas.join(', ') : 'Sin seleccionar';
+            message += `*Salsas:* ${salsaText}\n`;
+            
+            message += `\n━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `*Total: $${total.toLocaleString()}*\n\n`;
+            message += '¿Deseas realizar este pedido?';
+            
+            const whatsappUrl = `https://wa.me/+573218221222?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProteins();
+            renderGuarniciones();
+            renderEnsaladas();
+            renderSalsas();
+            updateTotal();
+            updateSummary();
+        });
+    </script>
+</body>
+</html>
+
