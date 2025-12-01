@@ -40,6 +40,11 @@
                 0 4px 8px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+            cursor: default !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
         }
         
         .item-details .price:hover {
@@ -62,6 +67,11 @@
                 0 3px 6px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+            cursor: default !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
         }
         
         .price:hover {
@@ -113,6 +123,11 @@
                     0 3px 6px rgba(0, 0, 0, 0.3),
                     inset 0 1px 0 rgba(255, 255, 255, 0.2),
                     inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+                cursor: default !important;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
             }
             
             .item-details .price:hover {
@@ -137,6 +152,11 @@
                     0 2px 4px rgba(0, 0, 0, 0.3),
                     inset 0 1px 0 rgba(255, 255, 255, 0.2),
                     inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+                cursor: default !important;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
             }
             
             .item-details .price:hover {
@@ -161,6 +181,11 @@
                     0 2px 4px rgba(0, 0, 0, 0.3),
                     inset 0 1px 0 rgba(255, 255, 255, 0.2),
                     inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+                cursor: default !important;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
             }
             
             .item-details .price:hover {
@@ -232,8 +257,8 @@
                     <div class="item-details">
                         <h3>HIT</h3>
                         <div class="item-actions">
-                            <p class="price">$8.500</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20HIT%20por%20$8.500" class="order-btn" target="_blank">
+                            <p class="price">$4.000</p>
+                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20HIT%20por%20$4.000" class="order-btn" target="_blank">
                                 <i class="fab fa-whatsapp"></i> Pedir domicilio
                             </a>
                         </div>
@@ -246,36 +271,8 @@
                     <div class="item-details">
                         <h3>GASEOSA X400</h3>
                         <div class="item-actions">
-                            <p class="price">$8.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Gaseosa%20400ml%20por%20$8.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-details">
-                        <h3>GASEOSA 1.5L</h3>
-                        <div class="item-actions">
-                            <p class="price">$8.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Gaseosa%201.5L%20por%20$8.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-details">
-                        <h3>GASEOSA 3L</h3>
-                        <div class="item-actions">
-                            <p class="price">$12.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Gaseosa%203L%20por%20$12.000" class="order-btn" target="_blank">
+                            <p class="price">$4.000</p>
+                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Gaseosa%20400ml%20por%20$4.000" class="order-btn" target="_blank">
                                 <i class="fab fa-whatsapp"></i> Pedir domicilio
                             </a>
                         </div>
@@ -389,5 +386,30 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Desactivar la funcionalidad de copiar precios en esta página
+        // Esperar a que script.js termine de ejecutarse
+        setTimeout(function() {
+            const prices = document.querySelectorAll('.price');
+            prices.forEach(price => {
+                // Remover todos los event listeners clonando el elemento
+                const newPrice = price.cloneNode(true);
+                price.parentNode.replaceChild(newPrice, price);
+                // Establecer estilos para prevenir interacción
+                newPrice.style.cursor = 'default';
+                newPrice.style.userSelect = 'none';
+                newPrice.style.webkitUserSelect = 'none';
+                newPrice.style.mozUserSelect = 'none';
+                newPrice.style.msUserSelect = 'none';
+                // Prevenir cualquier evento de clic
+                newPrice.onclick = null;
+                newPrice.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                });
+            });
+        }, 200);
+    </script>
 </body>
 </html> 

@@ -311,9 +311,9 @@
                     <div class="option-title">PARA 4</div>
                     <div class="option-price">$68.000</div>
                 </button>
-                <button class="pikada-option-btn" data-option="especial" data-price="105000" data-name="PIKADAS ESPECIAL" data-proteins="12" data-guarniciones="4" data-ensaladas="2" data-salsas="1" onclick="selectPikadaOption(this)">
+                <button class="pikada-option-btn" data-option="especial" data-price="115000" data-name="PIKADAS ESPECIAL" data-proteins="12" data-guarniciones="4" data-ensaladas="2" data-salsas="1" onclick="selectPikadaOption(this)">
                     <div class="option-title">ESPECIAL</div>
-                    <div class="option-price">$105.000</div>
+                    <div class="option-price">$115.000</div>
                 </button>
             </div>
             
@@ -437,7 +437,7 @@
             },
             especial: {
                 name: "PIKADAS ESPECIAL",
-                price: 105000,
+                price: 115000,
                 proteins: 12,
                 guarniciones: 4,
                 ensaladas: 2,
@@ -538,9 +538,6 @@
             
             const option = button.dataset.option;
             selectedPikada = pikadaOptions[option];
-            
-            // Actualizar imagen
-            document.getElementById('pikada-image').src = selectedPikada.image;
             
             // Mostrar precio base
             document.getElementById('base-price-display').style.display = 'block';
