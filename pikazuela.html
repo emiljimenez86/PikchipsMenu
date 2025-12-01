@@ -338,6 +338,22 @@
                 <!-- Proteínas se cargarán con JavaScript -->
             </div>
             <div class="selection-group">
+                <h4><i class="fas fa-bowl-food"></i> Elige tu opción</h4>
+                <p style="color: #cccccc; text-align: center; font-size: 0.85rem; margin-bottom: 10px; font-style: italic;">
+                    Selecciona Sopa del Día o Frijoles (incluido)
+                </p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <label id="label-sopa-dia" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px 20px; background: #2a2a2a; border: 2px solid #3a3a3a; border-radius: 10px; color: #ffffff; transition: all 0.3s ease;">
+                        <input type="radio" name="sopa-frijoles" value="Sopa del Día" id="sopa-dia" onchange="updateSopaFrijoles()" style="cursor: pointer; width: 18px; height: 18px;">
+                        <span>Sopa del Día</span>
+                    </label>
+                    <label id="label-frijoles" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px 20px; background: #2a2a2a; border: 2px solid #3a3a3a; border-radius: 10px; color: #ffffff; transition: all 0.3s ease;">
+                        <input type="radio" name="sopa-frijoles" value="Frijoles" id="frijoles" onchange="updateSopaFrijoles()" style="cursor: pointer; width: 18px; height: 18px;">
+                        <span>Frijoles</span>
+                    </label>
+                </div>
+            </div>
+            <div class="selection-group">
                 <h4><i class="fas fa-drumstick-bite"></i> Elige tu Guarnición</h4>
                 <p id="guarnicion-info" style="color: #ffeb3b; text-align: center; font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">
                     <i class="fas fa-info-circle"></i> 1 guarnición incluida. Las adicionales: +$6.000 c/u
@@ -363,6 +379,7 @@
                 </h3>
                 <div id="summary-content" style="color: #ffffff;">
                     <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Proteína:</strong> <span id="summary-protein">Ninguna</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Sopa/Frijoles:</strong> <span id="summary-sopa-frijoles">-</span></p>
                     <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Guarnición:</strong> <span id="summary-guarnicion">-</span></p>
                     <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Ensalada:</strong> <span id="summary-ensalada">-</span></p>
                     <p style="margin: 10px 0;"><strong style="color: #ff6b35;">Salsas:</strong> <span id="summary-salsas">Sin seleccionar</span></p>
@@ -501,9 +518,38 @@
         const ADDITIONAL_ENSALADA_PRICE = 5000;
         
         let selectedProteins = [];
+        let selectedSopaFrijoles = ""; // Sopa del Día o Frijoles
         let selectedGuarniciones = []; // Sin selección por defecto - el cliente debe elegir
         let selectedEnsaladas = []; // Sin selección por defecto - el cliente debe elegir
         let selectedSalsas = [];
+        
+        function updateSopaFrijoles() {
+            const sopaDia = document.getElementById('sopa-dia');
+            const frijoles = document.getElementById('frijoles');
+            const labelSopaDia = document.getElementById('label-sopa-dia');
+            const labelFrijoles = document.getElementById('label-frijoles');
+            
+            if (sopaDia.checked) {
+                selectedSopaFrijoles = "Sopa del Día";
+                labelSopaDia.style.borderColor = "#4caf50";
+                labelSopaDia.style.background = "rgba(76, 175, 80, 0.2)";
+                labelFrijoles.style.borderColor = "#3a3a3a";
+                labelFrijoles.style.background = "#2a2a2a";
+            } else if (frijoles.checked) {
+                selectedSopaFrijoles = "Frijoles";
+                labelFrijoles.style.borderColor = "#4caf50";
+                labelFrijoles.style.background = "rgba(76, 175, 80, 0.2)";
+                labelSopaDia.style.borderColor = "#3a3a3a";
+                labelSopaDia.style.background = "#2a2a2a";
+            } else {
+                selectedSopaFrijoles = "";
+                labelSopaDia.style.borderColor = "#3a3a3a";
+                labelSopaDia.style.background = "#2a2a2a";
+                labelFrijoles.style.borderColor = "#3a3a3a";
+                labelFrijoles.style.background = "#2a2a2a";
+            }
+            updateSummary();
+        }
         
         function renderProteins() {
             const selector = document.getElementById('protein-selector');
@@ -668,6 +714,14 @@
                 proteinEl.textContent = 'Ninguna';
             }
             
+            // Sopa/Frijoles
+            const sopaFrijolesEl = document.getElementById('summary-sopa-frijoles');
+            if (selectedSopaFrijoles) {
+                sopaFrijolesEl.innerHTML = `<span style="color: #4caf50;">${selectedSopaFrijoles} (Incluida)</span>`;
+            } else {
+                sopaFrijolesEl.textContent = '-';
+            }
+            
             // Guarniciones
             const guarnicionEl = document.getElementById('summary-guarnicion');
             if (selectedGuarniciones.length > 0) {
@@ -727,6 +781,14 @@
                 });
             } else {
                 message += `*Proteínas:* Sin seleccionar\n`;
+            }
+            message += `\n`;
+            
+            // Sopa del Día / Frijoles
+            if (selectedSopaFrijoles) {
+                message += `*Sopa/Frijoles:* ${selectedSopaFrijoles} (incluida)\n`;
+            } else {
+                message += `*Sopa/Frijoles:* Sin seleccionar (incluida)\n`;
             }
             message += `\n`;
             
