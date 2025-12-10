@@ -43,6 +43,37 @@ body {
     color: #ffffff;
     line-height: 1.6;
     overflow-x: hidden;
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+html {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+/* Eliminar cualquier borde verde en la parte superior */
+* {
+    border-top-color: transparent !important;
+}
+
+body::before,
+body::after,
+html::before,
+html::after {
+    border-top: none !important;
+    border-top-color: transparent !important;
+}
+
+/* Asegurar que no haya bordes verdes en elementos superiores */
+.main-header::before,
+.main-header::after,
+.logo-container::before,
+.logo-container::after {
+    border-top: none !important;
+    border-top-color: transparent !important;
 }
 
 /* PWA-specific logo styling - Black background when installed */
@@ -199,6 +230,9 @@ body.pwa-installed .category-header .logo {
     color: white;
     padding: 40px 20px;
     text-align: center;
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
 }
 
 .logo-container {
