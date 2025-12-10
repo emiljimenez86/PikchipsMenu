@@ -12,83 +12,254 @@
     
     <title>PIK PARRILLA - PikChips</title>
     
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     
     <link rel="icon" type="image/png" sizes="192x192" href="image/PikMenu.png">
     <link rel="apple-touch-icon" sizes="180x180" href="image/PikMenu.png">
     <link rel="manifest" href="manifest.json">
     
     <style>
-        /* Cambiar colores rojos por amarillos en PIK PARRILLA */
+        /* Diseño moderno e interactivo para PIK PARRILLA */
+        
+        /* Mejoras en las tarjetas de menú - Transparentes */
+        /* Usar máxima especificidad para sobrescribir styles.css */
+        html body .menu-content .menu-grid .menu-item,
+        html body .menu-content .menu-item,
+        html body .menu-grid .menu-item,
+        html body .menu-item,
+        body .menu-content .menu-grid .menu-item,
+        body .menu-content .menu-item,
+        body .menu-grid .menu-item,
+        body .menu-item,
+        .menu-content .menu-grid .menu-item,
+        .menu-content .menu-item,
+        .menu-grid .menu-item,
         .menu-item {
-            border-left: 4px solid #ffeb3b !important;
+            background: rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(5px) !important;
+            -webkit-backdrop-filter: blur(5px) !important;
+            border-radius: 20px !important;
+            padding: 30px !important;
+            margin-bottom: 25px !important;
+            border-left: 5px solid #ffeb3b !important;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
         
+        /* Asegurar que no haya fondo sólido en ningún elemento */
+        html body .menu-item .item-content,
+        body .menu-item .item-content,
+        .menu-item .item-content {
+            background: transparent !important;
+        }
+        
+        html body .menu-item .item-details,
+        body .menu-item .item-details,
+        .menu-item .item-details {
+            background: transparent !important;
+        }
+        
+        html body .menu-item .item-actions,
+        body .menu-item .item-actions,
+        .menu-item .item-actions {
+            background: transparent !important;
+        }
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 235, 59, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .menu-item:hover::before {
+            left: 100%;
+        }
+        
+        body .menu-item:hover,
+        .menu-item:hover {
+            background: rgba(0, 0, 0, 0.35) !important;
+            transform: translateY(-8px) scale(1.02) !important;
+            box-shadow: 
+                0 20px 40px rgba(255, 235, 59, 0.3),
+                0 10px 20px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 235, 59, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+            border-left-color: #fdd835 !important;
+            border-color: rgba(255, 235, 59, 0.3) !important;
+        }
+        
+        .menu-item .item-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Mejoras en el título del plato */
+        .item-details h3 {
+            color: #ffeb3b !important;
+            font-size: 1.6rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 15px !important;
+            text-shadow: 0 2px 10px rgba(255, 235, 59, 0.3) !important;
+            letter-spacing: 0.5px !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .menu-item:hover .item-details h3 {
+            color: #fdd835 !important;
+            text-shadow: 0 4px 15px rgba(255, 235, 59, 0.5) !important;
+            transform: translateX(5px) !important;
+        }
+        
+        /* Diseño moderno del precio */
+        .item-details .price {
+            background: linear-gradient(135deg, #ffeb3b 0%, #fdd835 50%, #ffc107 100%) !important;
+            color: #000000 !important;
+            font-size: 1.5rem !important;
+            font-weight: 800 !important;
+            padding: 15px 25px !important;
+            border-radius: 15px !important;
+            display: block !important;
+            width: fit-content !important;
+            margin: 0 auto !important;
+            box-shadow: 
+                0 10px 25px rgba(255, 235, 59, 0.5),
+                0 5px 10px rgba(0, 0, 0, 0.3),
+                inset 0 2px 5px rgba(255, 255, 255, 0.4),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.2) !important;
+            cursor: default !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .item-details .price::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .item-details .price:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .item-details .price:hover {
+            transform: scale(1.05) translateY(-3px) !important;
+            box-shadow: 
+                0 15px 35px rgba(255, 235, 59, 0.6),
+                0 8px 15px rgba(0, 0, 0, 0.4),
+                inset 0 2px 8px rgba(255, 255, 255, 0.5),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* Mejoras en el botón de pedido - Transparente */
+        .order-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            color: #007bff !important;
+            padding: 14px 28px !important;
+            border-radius: 12px !important;
+            font-weight: 600 !important;
+            font-size: 1rem !important;
+            text-decoration: none !important;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        .order-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .order-btn:hover::before {
+            left: 100%;
+        }
+        
+        .order-btn:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #0056b3 !important;
+            transform: translateY(-3px) scale(1.05) !important;
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        .order-btn:active {
+            transform: translateY(-1px) scale(1.02) !important;
+        }
+        
+        .order-btn i {
+            font-size: 1.2rem !important;
+            transition: transform 0.3s ease !important;
+        }
+        
+        .order-btn:hover i {
+            transform: scale(1.2) rotate(5deg) !important;
+        }
+        
+        /* Mejoras en el contenedor de acciones */
+        .item-actions {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 15px !important;
+            align-items: center !important;
+            margin-top: 15px !important;
+            width: 100% !important;
+        }
+        
+        /* Efectos adicionales */
         .item-image {
-            border: 2px solid #ffeb3b !important;
-            box-shadow: 0 4px 15px rgba(255, 235, 59, 0.2) !important;
+            border: 3px solid #ffeb3b !important;
+            box-shadow: 0 8px 25px rgba(255, 235, 59, 0.3) !important;
+            transition: all 0.4s ease !important;
         }
         
         .item-image:hover {
             border-color: #fdd835 !important;
-            box-shadow: 0 6px 20px rgba(255, 235, 59, 0.4) !important;
-        }
-        
-        .item-details h3 {
-            color: #ffeb3b !important;
-        }
-        
-        .item-details .price {
-            background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
-            color: #000000 !important;
-            box-shadow: 
-                0 8px 16px rgba(255, 235, 59, 0.4),
-                0 4px 8px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
-            cursor: default !important;
-            user-select: none !important;
-            -webkit-user-select: none !important;
-            -moz-user-select: none !important;
-            -ms-user-select: none !important;
-        }
-        
-        .item-details .price:hover {
-            box-shadow: 
-                0 12px 24px rgba(255, 235, 59, 0.5),
-                0 6px 12px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
-        }
-        
-        .item-info h3 {
-            color: #ffeb3b !important;
-        }
-        
-        .price {
-            background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
-            color: #000000 !important;
-            box-shadow: 
-                0 6px 12px rgba(255, 235, 59, 0.4),
-                0 3px 6px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
-            cursor: default !important;
-            user-select: none !important;
-            -webkit-user-select: none !important;
-            -moz-user-select: none !important;
-            -ms-user-select: none !important;
-        }
-        
-        .price:hover {
-            box-shadow: 
-                0 10px 20px rgba(255, 235, 59, 0.5),
-                0 5px 10px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 12px 35px rgba(255, 235, 59, 0.5) !important;
+            transform: scale(1.05) !important;
         }
         
         .back-navigation {
@@ -119,102 +290,143 @@
             color: #ffeb3b !important;
         }
         
+        /* Fondo de página */
+        body {
+            background-image: url('image/fondo4.png') !important;
+            background-size: cover !important;
+            background-position: center center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+            position: relative !important;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+        
+        /* Hacer transparente el contenedor del menú */
+        html body .menu-content,
+        body .menu-content,
+        .menu-content {
+            background: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* También hacer transparente el grid del menú */
+        html body .menu-grid,
+        body .menu-grid,
+        .menu-grid {
+            background: transparent !important;
+        }
+        
+        /* Animación de entrada para las tarjetas */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .menu-item {
+            animation: slideInUp 0.6s ease-out backwards !important;
+        }
+        
+        .menu-item:nth-child(1) { animation-delay: 0.1s !important; }
+        .menu-item:nth-child(2) { animation-delay: 0.2s !important; }
+        .menu-item:nth-child(3) { animation-delay: 0.3s !important; }
+        .menu-item:nth-child(4) { animation-delay: 0.4s !important; }
+        .menu-item:nth-child(5) { animation-delay: 0.5s !important; }
+        .menu-item:nth-child(6) { animation-delay: 0.6s !important; }
+        .menu-item:nth-child(7) { animation-delay: 0.7s !important; }
+        .menu-item:nth-child(8) { animation-delay: 0.8s !important; }
+        
+        /* Responsive - Tablet */
         @media (max-width: 768px) {
-            .item-image {
-                border: 2px solid #ffeb3b !important;
+            .menu-item {
+                padding: 25px !important;
+                border-radius: 18px !important;
             }
             
             .item-details h3 {
-                color: #ffeb3b !important;
+                font-size: 1.4rem !important;
             }
             
             .item-details .price {
-                background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
-                color: #000000 !important;
-                box-shadow: 
-                    0 6px 12px rgba(255, 235, 59, 0.4),
-                    0 3px 6px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
-                cursor: default !important;
-                user-select: none !important;
-                -webkit-user-select: none !important;
-                -moz-user-select: none !important;
-                -ms-user-select: none !important;
+                font-size: 1.3rem !important;
+                padding: 12px 20px !important;
             }
             
-            .item-details .price:hover {
-                box-shadow: 
-                    0 8px 16px rgba(255, 235, 59, 0.5),
-                    0 4px 8px rgba(0, 0, 0, 0.4),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                    inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+            .order-btn {
+                padding: 12px 24px !important;
+                font-size: 0.95rem !important;
             }
         }
         
+        /* Responsive - Mobile */
         @media (max-width: 480px) {
-            .item-image {
-                border: 2px solid #ffeb3b !important;
+            .menu-item {
+                padding: 20px !important;
+                border-radius: 15px !important;
+                margin-bottom: 20px !important;
+            }
+            
+            .menu-item:hover {
+                transform: translateY(-4px) scale(1.01) !important;
             }
             
             .item-details h3 {
-                color: #ffeb3b !important;
+                font-size: 1.3rem !important;
+                margin-bottom: 12px !important;
             }
             
             .item-details .price {
-                background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
-                color: #000000 !important;
-                box-shadow: 
-                    0 4px 8px rgba(255, 235, 59, 0.4),
-                    0 2px 4px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
-                cursor: default !important;
-                user-select: none !important;
-                -webkit-user-select: none !important;
-                -moz-user-select: none !important;
-                -ms-user-select: none !important;
+                font-size: 1.2rem !important;
+                padding: 10px 18px !important;
+                border-radius: 12px !important;
             }
             
             .item-details .price:hover {
-                box-shadow: 
-                    0 6px 12px rgba(255, 235, 59, 0.5),
-                    0 3px 6px rgba(0, 0, 0, 0.4),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                    inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+                transform: scale(1.03) translateY(-2px) !important;
+            }
+            
+            .order-btn {
+                padding: 11px 20px !important;
+                font-size: 0.9rem !important;
+                width: 100% !important;
+                justify-content: center !important;
+            }
+            
+            .item-actions {
+                width: 100% !important;
+                align-items: stretch !important;
             }
         }
         
+        /* Responsive - Small Mobile */
         @media (max-width: 360px) {
-            .item-image {
-                border: 2px solid #ffeb3b !important;
+            .menu-item {
+                padding: 15px !important;
             }
             
             .item-details h3 {
-                color: #ffeb3b !important;
+                font-size: 1.2rem !important;
             }
             
             .item-details .price {
-                background: linear-gradient(145deg, #ffeb3b, #fdd835) !important;
-                color: #000000 !important;
-                box-shadow: 
-                    0 3px 6px rgba(255, 235, 59, 0.4),
-                    0 2px 4px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
-                cursor: default !important;
-                user-select: none !important;
-                -webkit-user-select: none !important;
-                -moz-user-select: none !important;
-                -ms-user-select: none !important;
-            }
-            
-            .item-details .price:hover {
-                box-shadow: 
-                    0 5px 10px rgba(255, 235, 59, 0.5),
-                    0 3px 6px rgba(0, 0, 0, 0.4),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                    inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+                font-size: 1.1rem !important;
+                padding: 9px 16px !important;
             }
         }
     </style>
@@ -244,99 +456,99 @@
     <!-- Menu Items -->
     <main class="menu-content">
         <div class="menu-grid">
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='solomito-res.html'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
                         <h3>SOLOMITO DE RES 300G</h3>
                         <div class="item-actions">
                             <p class="price">$38.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Solomito%20de%20Res%20300G%20por%20$38.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='solomito-res.html';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='punta-anca.html'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
                         <h3>PUNTA DE ANCA 400G</h3>
                         <div class="item-actions">
                             <p class="price">$42.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Punta%20de%20Anca%20400G%20por%20$42.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='punta-anca.html';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='lomo-cerdo.html'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
                         <h3>LOMO DE CERDO 300G</h3>
                         <div class="item-actions">
                             <p class="price">$30.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Lomo%20de%20Cerdo%20300G%20por%20$30.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='lomo-cerdo.html';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='lomo-res.html'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
                         <h3>LOMO DE RES</h3>
                         <div class="item-actions">
                             <p class="price">$30.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Lomo%20de%20Res%20por%20$30.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='lomo-res.html';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='pechuga.html'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
                         <h3>PECHUGA 300G</h3>
                         <div class="item-actions">
                             <p class="price">$30.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Pechuga%20300G%20por%20$30.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='pechuga.html';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='costillas.html'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
                         <h3>COSTILLAS</h3>
                         <div class="item-actions">
                             <p class="price">$40.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Costillas%20por%20$40.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='costillas.html';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='churrasco.html'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
                         <h3>CHURRASCO 330G</h3>
                         <div class="item-actions">
                             <p class="price">$38.000</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20Churrasco%20330G%20por%20$38.000" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='churrasco.html';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -376,8 +588,67 @@
 
     <script src="script.js"></script>
     <script>
+        // Aplicar transparencia a las tarjetas y contenedores después de cargar la página
+        function aplicarTransparencia() {
+            // Hacer transparente el contenedor del menú
+            const menuContent = document.querySelector('.menu-content');
+            if (menuContent) {
+                menuContent.style.background = 'transparent';
+            }
+            
+            // Hacer transparente el grid del menú
+            const menuGrid = document.querySelector('.menu-grid');
+            if (menuGrid) {
+                menuGrid.style.background = 'transparent';
+            }
+            
+            // Aplicar transparencia a las tarjetas
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.style.background = 'rgba(0, 0, 0, 0.2)';
+                item.style.backdropFilter = 'blur(5px)';
+                item.style.webkitBackdropFilter = 'blur(5px)';
+                item.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                
+                // Asegurar que elementos internos también sean transparentes
+                const itemContent = item.querySelector('.item-content');
+                if (itemContent) {
+                    itemContent.style.background = 'transparent';
+                }
+                
+                const itemDetails = item.querySelector('.item-details');
+                if (itemDetails) {
+                    itemDetails.style.background = 'transparent';
+                }
+                
+                const itemActions = item.querySelector('.item-actions');
+                if (itemActions) {
+                    itemActions.style.background = 'transparent';
+                }
+            });
+            
+            // Aplicar hover transparente
+            menuItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(0, 0, 0, 0.35)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.background = 'rgba(0, 0, 0, 0.2)';
+                });
+            });
+        }
+        
+        // Ejecutar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', aplicarTransparencia);
+        } else {
+            aplicarTransparencia();
+        }
+        
+        // También ejecutar después de un pequeño delay para asegurar que styles.css se haya aplicado
+        setTimeout(aplicarTransparencia, 100);
+        
         // Desactivar la funcionalidad de copiar precios en esta página
-        // Esperar a que script.js termine de ejecutarse
         setTimeout(function() {
             const prices = document.querySelectorAll('.price');
             prices.forEach(price => {
