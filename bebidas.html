@@ -196,6 +196,78 @@
                     inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
             }
         }
+        
+        /* Fondo de página */
+        body {
+            background-image: url('image/fondoBebidas.png') !important;
+            background-size: cover !important;
+            background-position: center center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+            position: relative !important;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Transparencia para tarjetas - igual que pik-parrilla */
+        html body .menu-content,
+        body .menu-content,
+        .menu-content {
+            background: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+        
+        html body .menu-grid,
+        body .menu-grid,
+        .menu-grid {
+            background: transparent !important;
+        }
+        
+        html body .menu-content .menu-grid .menu-item,
+        html body .menu-content .menu-item,
+        html body .menu-grid .menu-item,
+        html body .menu-item,
+        body .menu-content .menu-grid .menu-item,
+        body .menu-content .menu-item,
+        body .menu-grid .menu-item,
+        body .menu-item,
+        .menu-content .menu-grid .menu-item,
+        .menu-content .menu-item,
+        .menu-grid .menu-item,
+        .menu-item {
+            background: rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(5px) !important;
+            -webkit-backdrop-filter: blur(5px) !important;
+        }
+        
+        html body .menu-item .item-content,
+        body .menu-item .item-content,
+        .menu-item .item-content {
+            background: transparent !important;
+        }
+        
+        html body .menu-item .item-details,
+        body .menu-item .item-details,
+        .menu-item .item-details {
+            background: transparent !important;
+        }
+        
+        html body .menu-item .item-actions,
+        body .menu-item .item-actions,
+        .menu-item .item-actions {
+            background: transparent !important;
+        }
     </style>
 </head>
 <body>
