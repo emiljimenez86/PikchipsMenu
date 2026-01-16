@@ -390,7 +390,8 @@
             </div>
             
             <div class="base-price" id="base-price-display" style="display: none;">
-                Precio Base: <span id="base-price-amount">$0</span>
+                <div style="margin-bottom: 10px;">Consumir aquí: <span id="base-price-amount">$0</span></div>
+                <div style="color: #ffeb3b;">Para llevar: <span id="base-price-llevar">$0</span> + valor del domicilio</div>
             </div>
         </div>
 
@@ -428,6 +429,7 @@
                 <h4><i class="fas fa-pepper-hot"></i> Elige tus Salsas</h4>
                 <div class="salsa-container" id="salsa-selector"></div>
             </div>
+            
             
             <!-- Resumen de Selección -->
             <div class="selection-summary" id="selection-summary" style="background: #2a2a2a; padding: 20px; border-radius: 15px; border: 2px solid #ff6b35; margin-top: 30px; margin-bottom: 20px;">
@@ -598,10 +600,30 @@
         let selectedEnsaladas = [];
         let selectedSalsas = [];
         
+        // Costos adicionales por servicio para llevar (SIEMPRE se aplican en WhatsApp)
+        const LLEVAR_COSTOS = {
+            para2: 3000,
+            para4: 3000,
+            especial: 6000
+        };
+        
+        // Obtener costo adicional para llevar según la pikada
+        function getLlevarCosto() {
+            if (!selectedPikada) return 0;
+            if (selectedPikada.name === "PIKADAS PARA 2") {
+                return LLEVAR_COSTOS.para2;
+            } else if (selectedPikada.name === "PIKADAS PARA 4") {
+                return LLEVAR_COSTOS.para4;
+            } else if (selectedPikada.name === "PIKADAS ESPECIAL") {
+                return LLEVAR_COSTOS.especial;
+            }
+            return 0;
+        }
+        
         // Seleccionar opción de pikada
         function selectPikadaOption(button) {
-            // Remover selección anterior
-            document.querySelectorAll('.pikada-option-btn').forEach(btn => {
+            // Remover selección anterior de pikadas
+            document.querySelectorAll('.pikada-options .pikada-option-btn').forEach(btn => {
                 btn.classList.remove('selected');
             });
             
@@ -638,11 +660,44 @@
             renderGuarniciones();
             renderEnsaladas();
             renderSalsas();
+            
+            // Actualizar precios base (consumir aquí y para llevar)
+            const precioConsumir = selectedPikada.price;
+            const precioLlevar = selectedPikada.price + getLlevarCosto();
+            document.getElementById('base-price-amount').textContent = `$${precioConsumir.toLocaleString()}`;
+            document.getElementById('base-price-llevar').textContent = `$${precioLlevar.toLocaleString()}`;
+            
             updateTotal();
             updateSummary();
             
             // Scroll suave a la sección de personalización
             document.getElementById('build-plate-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Actualizar precio del servicio para llevar
+        function updateLlevarPrice() {
+            if (!selectedPikada) {
+                document.getElementById('llevar-price-badge').textContent = '(+$0)';
+                return;
+            }
+            
+            const llevarPriceEl = document.getElementById('llevar-price-badge');
+            
+            // Determinar el costo según la pikada seleccionada
+            let costoAdicional = 0;
+            if (selectedPikada.name === "PIKADAS PARA 2") {
+                costoAdicional = LLEVAR_COSTOS.para2;
+            } else if (selectedPikada.name === "PIKADAS PARA 4") {
+                costoAdicional = LLEVAR_COSTOS.para4;
+            } else if (selectedPikada.name === "PIKADAS ESPECIAL") {
+                costoAdicional = LLEVAR_COSTOS.especial;
+            }
+            
+            if (costoAdicional > 0) {
+                llevarPriceEl.textContent = `(+$${costoAdicional.toLocaleString()})`;
+            } else {
+                llevarPriceEl.textContent = '(+$0)';
+            }
         }
         
         // Renderizar proteínas
@@ -801,31 +856,14 @@
         function updateTotal() {
             if (!selectedPikada) return;
             
-            let total = selectedPikada.price;
-            const additional = getAdditionalItems();
+            // Mostrar ambos precios: consumir aquí y para llevar
+            const totalConsumir = calculateTotalConsumir();
+            const totalLlevar = calculateTotalLlevar();
             
-            // Cobrar las proteínas adicionales (las que exceden las incluidas)
-            if (additional.proteins > 0) {
-                // Tomar solo las últimas N proteínas adicionales
-                const additionalProteins = selectedProteins.slice(-additional.proteins);
-                additionalProteins.forEach(protein => {
-                    total += protein.price;
-                });
-            }
-            
-            // Cobrar las guarniciones adicionales
-            if (additional.guarniciones > 0) {
-                total += additional.guarniciones * ADDITIONAL_GUARNICION_PRICE;
-            }
-            
-            // Cobrar las ensaladas adicionales
-            if (additional.ensaladas > 0) {
-                total += additional.ensaladas * ADDITIONAL_ENSALADA_PRICE;
-            }
-            
-            // Las salsas adicionales no tienen costo extra
-            
-            document.getElementById('total-price').textContent = `$${total.toLocaleString()}`;
+            document.getElementById('total-price').innerHTML = `
+                <div style="margin-bottom: 8px;">Consumir aquí: <strong>$${totalConsumir.toLocaleString()}</strong></div>
+                <div style="color: #ffeb3b;"><i class="fas fa-box" style="margin-right: 8px;"></i><strong>$${totalLlevar.toLocaleString()}</strong> + valor del <i class="fas fa-motorcycle" style="margin-left: 5px;"></i></div>
+            `;
         }
         
         // Actualizar resumen
@@ -904,6 +942,39 @@
             }
         }
         
+        // Calcular total para consumir aquí (sin costo adicional)
+        function calculateTotalConsumir() {
+            if (!selectedPikada) return 0;
+            
+            let total = selectedPikada.price;
+            const additional = getAdditionalItems();
+            
+            // Cobrar las proteínas adicionales (las que exceden las incluidas)
+            if (additional.proteins > 0) {
+                const additionalProteins = selectedProteins.slice(-additional.proteins);
+                additionalProteins.forEach(protein => {
+                    total += protein.price;
+                });
+            }
+            
+            // Cobrar las guarniciones adicionales
+            if (additional.guarniciones > 0) {
+                total += additional.guarniciones * ADDITIONAL_GUARNICION_PRICE;
+            }
+            
+            // Cobrar las ensaladas adicionales
+            if (additional.ensaladas > 0) {
+                total += additional.ensaladas * ADDITIONAL_ENSALADA_PRICE;
+            }
+            
+            return total;
+        }
+        
+        // Calcular total para llevar (SIEMPRE incluye el costo adicional)
+        function calculateTotalLlevar() {
+            return calculateTotalConsumir() + getLlevarCosto();
+        }
+        
         // Enviar pedido
         function sendOrder() {
             if (!selectedPikada) {
@@ -917,81 +988,23 @@
             const includedEnsaladas = parseInt(selectedPikada.ensaladas);
             const includedSalsas = parseInt(selectedPikada.salsas);
             
-            let total = selectedPikada.price;
-            let message = `🍽️ *${selectedPikada.name}*\n\n`;
+            // Calcular totales
+            const costoAdicionalLlevar = getLlevarCosto();
+            const totalLlevar = calculateTotalLlevar(); // SIEMPRE se usa este total en WhatsApp
+            
+            // Formato del mensaje según el ejemplo
+            let message = `*${selectedPikada.name}*\n`;
             message += `*Precio Base:* $${selectedPikada.price.toLocaleString()}\n`;
-            message += `*Incluye:* ${includedProteins} Proteínas, ${includedGuarniciones} Guarniciones, ${includedEnsaladas} Ensalada(s), ${includedSalsas} Salsa(s)\n\n`;
-            
-            // Proteínas
-            if (selectedProteins.length > 0) {
-                message += `*Proteínas Seleccionadas:*\n`;
-                selectedProteins.forEach((protein, index) => {
-                    const isIncluded = index < includedProteins;
-                    if (isIncluded) {
-                        message += `${protein.name} (incluida)\n`;
-                    } else {
-                        total += protein.price;
-                        message += `${protein.name} (adicional +$${protein.price.toLocaleString()})\n`;
-                    }
-                });
-                message += `\n`;
-            } else {
-                message += `*Proteínas:*\n0/${includedProteins} seleccionadas\n\n`;
-            }
-            
-            // Guarniciones
-            if (selectedGuarniciones.length > 0) {
-                message += `*Guarniciones Seleccionadas:*\n`;
-                selectedGuarniciones.forEach((guarnicion, index) => {
-                    const isIncluded = index < includedGuarniciones;
-                    if (isIncluded) {
-                        message += `${guarnicion} (incluida)\n`;
-                    } else {
-                        total += ADDITIONAL_GUARNICION_PRICE;
-                        message += `${guarnicion} (adicional +$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})\n`;
-                    }
-                });
-                message += `\n`;
-            } else {
-                message += `*Guarniciones:*\n0/${includedGuarniciones} seleccionadas\n\n`;
-            }
-            
-            // Ensaladas
-            if (selectedEnsaladas.length > 0) {
-                message += `*Ensaladas Seleccionadas:*\n`;
-                selectedEnsaladas.forEach((ensalada, index) => {
-                    const isIncluded = index < includedEnsaladas;
-                    if (isIncluded) {
-                        message += `${ensalada} (incluida)\n`;
-                    } else {
-                        total += ADDITIONAL_ENSALADA_PRICE;
-                        message += `${ensalada} (adicional +$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})\n`;
-                    }
-                });
-                message += `\n`;
-            } else {
-                message += `*Ensaladas:*\n0/${includedEnsaladas} seleccionadas\n\n`;
-            }
-            
-            // Salsas
-            if (selectedSalsas.length > 0) {
-                message += `*Salsas Seleccionadas:*\n`;
-                selectedSalsas.forEach((salsa, index) => {
-                    const isIncluded = index < includedSalsas;
-                    if (isIncluded) {
-                        message += `${salsa} (incluida)\n`;
-                    } else {
-                        message += `${salsa} (adicional)\n`;
-                    }
-                });
-                message += `\n`;
-            } else {
-                message += `*Salsas:*\n0/${includedSalsas} seleccionadas\n\n`;
-            }
-            
-            message += `━━━━━━━━━━━━━━━━━━━━\n`;
-            message += `*Total: $${total.toLocaleString()}*\n\n`;
-            message += '¡Deseo realizar este pedido!';
+            message += `*Incluye:* ${includedProteins} Proteínas, ${includedGuarniciones} Guarniciones, ${includedEnsaladas} Ensalada(s), ${includedSalsas} Salsa(s)\n`;
+            message += `*Servicio de empaques para llevar:* +$${costoAdicionalLlevar.toLocaleString()}\n`;
+            message += `*Proteínas:* ${selectedProteins.length}/${includedProteins} seleccionadas\n`;
+            message += `*Guarniciones:* ${selectedGuarniciones.length}/${includedGuarniciones} seleccionadas\n`;
+            message += `*Ensaladas:* ${selectedEnsaladas.length}/${includedEnsaladas} seleccionadas\n`;
+            message += `*Salsas:* ${selectedSalsas.length}/${includedSalsas} seleccionadas\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `*Total: $${totalLlevar.toLocaleString()}*\n`;
+            message += `\n`;
+            message += `¡Deseo realizar este pedido!`;
             
             const whatsappUrl = `https://wa.me/+573218221222?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');

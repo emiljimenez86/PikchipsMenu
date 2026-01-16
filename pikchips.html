@@ -402,7 +402,6 @@
                 <ul>
                     <li>3 Proteínas</li>
                     <li>1 Guarnición</li>
-                    <li>1 Ensalada</li>
                     <li>Salsas</li>
                 </ul>
             </div>
@@ -428,8 +427,8 @@
                 <div class="option-list" id="guarnicion-selector"></div>
             </div>
             <div class="selection-group">
-                <h4><i class="fas fa-leaf"></i> Elige tu Ensalada</h4>
-                <p class="info-text">1 ensalada incluida. Las adicionales: +$6.000 c/u</p>
+                <h4><i class="fas fa-leaf"></i> Elige tus Ensaladas</h4>
+                <p class="info-text">Las ensaladas tienen un costo de $6.000 cada una</p>
                 <div class="option-list" id="ensalada-selector"></div>
             </div>
             <div class="selection-group">
@@ -579,7 +578,7 @@
         // Cantidades incluidas
         const INCLUDED_PROTEINS = 3;
         const INCLUDED_GUARNICIONES = 1;
-        const INCLUDED_ENSALADAS = 1;
+        const INCLUDED_ENSALADAS = 0; // Las ensaladas son adicionales
         
         let selectedProteins = [];
         let selectedGuarniciones = []; // Sin selección por defecto - el cliente debe elegir
@@ -668,14 +667,11 @@
                     `;
                 }
                 
-                const itemIndex = selectedEnsaladas.indexOf(item);
-                const isSelected = itemIndex > -1;
-                const isExceeded = isSelected && itemIndex >= INCLUDED_ENSALADAS;
-                const isIncluded = isSelected && itemIndex < INCLUDED_ENSALADAS;
+                const isSelected = selectedEnsaladas.includes(item);
                 
                 return `
-                    <div class="option-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" onclick="toggleEnsalada('${item}')">
-                        ${item}${isIncluded ? ' <span style="color: #4caf50; font-size: 0.8em;">(Incluida)</span>' : isExceeded ? ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})</span>` : ''}
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleEnsalada('${item}')">
+                        ${item}${isSelected ? ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})</span>` : ''}
                     </div>
                 `;
             }).join('');
@@ -746,11 +742,10 @@
                 total += additionalGuarniciones * ADDITIONAL_GUARNICION_PRICE;
             }
             
-            // Sumar ensaladas adicionales (excluyendo "Sin ensalada")
+            // Sumar ensaladas (todas son adicionales, excluyendo "Sin ensalada")
             const ensaladasSeleccionadas = selectedEnsaladas.filter(e => e !== "Sin ensalada");
-            const additionalEnsaladas = Math.max(0, ensaladasSeleccionadas.length - INCLUDED_ENSALADAS);
-            if (additionalEnsaladas > 0) {
-                total += additionalEnsaladas * ADDITIONAL_ENSALADA_PRICE;
+            if (ensaladasSeleccionadas.length > 0) {
+                total += ensaladasSeleccionadas.length * ADDITIONAL_ENSALADA_PRICE;
             }
             
             totalPriceEl.textContent = `$${total.toLocaleString()}`;
@@ -797,16 +792,10 @@
             const ensaladaEl = document.getElementById('summary-ensalada');
             const ensaladasSeleccionadas = selectedEnsaladas.filter(e => e !== "Sin ensalada");
             if (ensaladasSeleccionadas.length > 0) {
+                const totalCost = ensaladasSeleccionadas.length * ADDITIONAL_ENSALADA_PRICE;
                 let ensaladasText = ensaladasSeleccionadas.join(', ');
-                if (ensaladasSeleccionadas.length > INCLUDED_ENSALADAS) {
-                    const additionalCost = (ensaladasSeleccionadas.length - INCLUDED_ENSALADAS) * ADDITIONAL_ENSALADA_PRICE;
-                    ensaladasText += `<br><span style="color: #4caf50; font-size: 0.9em;">${INCLUDED_ENSALADAS} incluida</span>`;
-                    ensaladasText += `<br><span style="color: #ffeb3b; font-size: 0.9em;">${ensaladasSeleccionadas.length - INCLUDED_ENSALADAS} adicionales: +$${additionalCost.toLocaleString()}</span>`;
-                    ensaladaEl.innerHTML = ensaladasText;
-                } else {
-                    ensaladasText += ` <span style="color: #4caf50; font-size: 0.9em;">(${ensaladasSeleccionadas.length}/${INCLUDED_ENSALADAS} incluida - Sin costo adicional)</span>`;
-                    ensaladaEl.innerHTML = ensaladasText;
-                }
+                ensaladasText += `<br><span style="color: #ffeb3b; font-size: 0.9em;">${ensaladasSeleccionadas.length} ensalada(s): +$${totalCost.toLocaleString()}</span>`;
+                ensaladaEl.innerHTML = ensaladasText;
             } else {
                 ensaladaEl.innerHTML = `<span style="color: #999;">Sin ensalada</span>`;
             }
@@ -857,13 +846,9 @@
             const ensaladasSeleccionadas = selectedEnsaladas.filter(e => e !== "Sin ensalada");
             if (ensaladasSeleccionadas.length > 0) {
                 message += `*Ensaladas:*\n`;
-                ensaladasSeleccionadas.forEach((ensalada, index) => {
-                    if (index < INCLUDED_ENSALADAS) {
-                        message += `• ${ensalada} (Incluida)\n`;
-                    } else {
-                        total += ADDITIONAL_ENSALADA_PRICE;
-                        message += `• ${ensalada}: +$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()}\n`;
-                    }
+                ensaladasSeleccionadas.forEach((ensalada) => {
+                    total += ADDITIONAL_ENSALADA_PRICE;
+                    message += `• ${ensalada}: +$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()}\n`;
                 });
             } else {
                 message += `*Ensalada:* Sin ensalada\n`;

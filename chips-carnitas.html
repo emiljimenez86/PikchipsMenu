@@ -241,6 +241,15 @@
             background: rgba(76, 175, 80, 0.2);
         }
         
+        .protein-card.selected.additional {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .protein-card.selected.additional .protein-price {
+            color: #f44336;
+        }
+        
         .protein-name {
             color: #ffffff;
             font-weight: 600;
@@ -431,7 +440,15 @@
 
         <!-- Build Your Plate Section -->
         <div class="build-plate-section">
-            <h3><i class="fas fa-magic"></i> Agrega Proteínas</h3>
+            <h3><i class="fas fa-drumstick-bite"></i> Elige tu Proteína Base</h3>
+            <p style="color: #ffeb3b; text-align: center; font-size: 0.9rem; margin-bottom: 15px; font-weight: 600;">
+                <i class="fas fa-info-circle"></i> Selecciona 200gr de proteína base (incluida en el precio)
+            </p>
+            <div class="protein-selector" id="base-protein-selector">
+                <!-- Proteína base se cargará con JavaScript -->
+            </div>
+            
+            <h3 style="margin-top: 30px;"><i class="fas fa-magic"></i> Agrega Proteínas Adicionales</h3>
             <p style="color: #cccccc; text-align: center; margin-bottom: 20px;">
                 Selecciona proteínas adicionales (opcional). Todas tienen costo adicional.
             </p>
@@ -456,6 +473,7 @@
             
             <div class="selection-summary" id="selection-summary">
                 <h4><i class="fas fa-clipboard-list"></i> Resumen de tu Pedido</h4>
+                <p><strong>Proteína Base (200gr):</strong> <span id="summary-base-protein">No seleccionada</span></p>
                 <p><strong>Proteínas adicionales:</strong> <span id="summary-protein">Ninguna</span></p>
                 <p><strong>Guarniciones:</strong> <span id="summary-guarnicion">-</span></p>
                 <p><strong>Ensaladas:</strong> <span id="summary-ensalada">-</span></p>
@@ -593,17 +611,46 @@
         const INCLUDED_GUARNICIONES = 1;
         const INCLUDED_ENSALADAS = 1;
         
-        let selectedProteins = [];
+        // Proteínas base disponibles
+        const baseProteins = [
+            { name: "Cerdo", value: "Cerdo" },
+            { name: "Res", value: "Res" },
+            { name: "Pollo", value: "Pollo" }
+        ];
+        
+        let selectedBaseProtein = null; // Proteína base seleccionada
+        let selectedProteins = []; // Proteínas adicionales
         let selectedGuarniciones = []; // Sin selección por defecto - el cliente debe elegir
         let selectedEnsaladas = []; // Sin selección por defecto - el cliente debe elegir
         let selectedSalsas = [];
+        
+        // Renderizar proteína base
+        function renderBaseProtein() {
+            const selector = document.getElementById('base-protein-selector');
+            selector.innerHTML = baseProteins.map(protein => {
+                const isSelected = selectedBaseProtein === protein.value;
+                return `
+                    <div class="protein-card ${isSelected ? 'selected' : ''}" 
+                         onclick="selectBaseProtein('${protein.value}')">
+                        <div class="protein-name">${protein.name}</div>
+                        <div class="protein-price" style="color: #4caf50;">Incluida</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function selectBaseProtein(value) {
+            selectedBaseProtein = value;
+            renderBaseProtein();
+            updateSummary();
+        }
         
         function renderProteins() {
             const selector = document.getElementById('protein-selector');
             selector.innerHTML = proteins.map(protein => {
                 const isSelected = selectedProteins.some(p => p.name === protein.name);
                 return `
-                    <div class="protein-card ${isSelected ? 'selected' : ''}" 
+                    <div class="protein-card ${isSelected ? 'selected additional' : ''}" 
                          onclick="toggleProtein('${protein.name}', ${protein.price})">
                         <div class="protein-name">${protein.name}</div>
                         <div class="protein-price">+$${protein.price.toLocaleString()}</div>
@@ -752,7 +799,15 @@
         }
         
         function updateSummary() {
-            // Proteínas
+            // Proteína base
+            const baseProteinEl = document.getElementById('summary-base-protein');
+            if (selectedBaseProtein) {
+                baseProteinEl.innerHTML = `<span style="color: #4caf50; font-weight: 600;">${selectedBaseProtein} (200gr - Incluida)</span>`;
+            } else {
+                baseProteinEl.innerHTML = '<span style="color: #f44336;">No seleccionada</span>';
+            }
+            
+            // Proteínas adicionales
             const proteinEl = document.getElementById('summary-protein');
             if (selectedProteins.length > 0) {
                 const proteinsText = selectedProteins.map(p => `${p.name} (+$${p.price.toLocaleString()})`).join(', ');
@@ -806,9 +861,16 @@
         }
         
         function sendOrder() {
+            // Validar que se haya seleccionado la proteína base
+            if (!selectedBaseProtein) {
+                alert('Por favor selecciona la proteína base (Cerdo, Res o Pollo)');
+                return;
+            }
+            
             let total = dishData.basePrice;
             let message = `🍟 *${dishData.name}*\n\n`;
-            message += `*Precio Base:* $${dishData.basePrice.toLocaleString()}\n\n`;
+            message += `*Precio Base:* $${dishData.basePrice.toLocaleString()}\n`;
+            message += `*Proteína Base:* 200gr de ${selectedBaseProtein} (Incluida)\n\n`;
             
             // Proteínas adicionales
             if (selectedProteins.length > 0) {
@@ -818,6 +880,8 @@
                     message += `• ${protein.name}: +$${protein.price.toLocaleString()}\n`;
                 });
                 message += `\n`;
+            } else {
+                message += `*Proteínas Adicionales:* Ninguna\n\n`;
             }
             
             // Guarniciones
@@ -861,6 +925,7 @@
         }
         
         document.addEventListener('DOMContentLoaded', function() {
+            renderBaseProtein();
             renderProteins();
             renderGuarniciones();
             renderEnsaladas();

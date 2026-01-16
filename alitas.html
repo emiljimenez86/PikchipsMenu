@@ -173,7 +173,7 @@
         
         .quantity-selector {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin: 20px 0;
         }
@@ -511,8 +511,9 @@
     <script>
         // Datos de las alitas
         const quantities = [
-            { name: "PIK ALITAS X6", price: 25000 },
-            { name: "PIK ALITAS X12", price: 40000 }
+            { name: "PIK ALITAS X6", price: 30000 },
+            { name: "PIK ALITAS X12", price: 45000 },
+            { name: "ALITAS + COSTILLAS", price: 50000 }
         ];
         
         const guarniciones = [
