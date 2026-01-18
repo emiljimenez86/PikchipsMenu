@@ -121,6 +121,11 @@
         }
 
         .option-card.selected {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .option-card.selected.included {
             border-color: #4caf50;
             background: rgba(76, 175, 80, 0.2);
         }
@@ -207,8 +212,8 @@
         }
         
         .protein-card.selected {
-            border-color: #4caf50;
-            background: rgba(76, 175, 80, 0.2);
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
         }
         
         .protein-name {
@@ -603,7 +608,7 @@
                 const isSelected = selectedGuarniciones.includes(item);
                 return `
                     <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleGuarnicion('${item}')">
-                        ${item}${isSelected ? '' : ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})</span>`}
+                        ${item} <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})</span>
                     </div>
                 `;
             }).join('');
@@ -627,7 +632,7 @@
                 if (item === "Sin ensalada") {
                     const isSelected = selectedEnsaladas.length === 0 || (selectedEnsaladas.length === 1 && selectedEnsaladas[0] === "Sin ensalada");
                     return `
-                        <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleEnsalada('${item}')">
+                        <div class="option-card ${isSelected ? 'selected included' : ''}" onclick="toggleEnsalada('${item}')">
                             ${item}
                         </div>
                     `;
@@ -636,7 +641,7 @@
                 const isSelected = selectedEnsaladas.includes(item);
                 return `
                     <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleEnsalada('${item}')">
-                        ${item}${isSelected ? '' : ` <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})</span>`}
+                        ${item} <span style="color: #ffeb3b; font-size: 0.8em;">(+$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})</span>
                     </div>
                 `;
             }).join('');

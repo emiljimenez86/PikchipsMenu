@@ -243,6 +243,11 @@
         }
         
         .protein-card.selected {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        
+        .protein-card.selected.included {
             border-color: #4caf50;
             background: rgba(76, 175, 80, 0.2);
         }
@@ -767,8 +772,20 @@
                 // Está incluida si está seleccionada y su índice es < al número de proteínas incluidas
                 const isIncluded = isSelected && proteinIndex < includedProteins;
                 
+                // Determinar las clases CSS
+                let cardClasses = '';
+                if (isSelected) {
+                    if (isIncluded) {
+                        cardClasses = 'selected included'; // Verde para incluidas
+                    } else if (isExceeded) {
+                        cardClasses = 'selected exceeded'; // Rojo para adicionales
+                    } else {
+                        cardClasses = 'selected'; // Rojo por defecto (no debería pasar en MI PIKONO)
+                    }
+                }
+                
                 return `
-                    <div class="protein-card ${isSelected ? (isExceeded ? 'selected exceeded' : 'selected') : ''}" 
+                    <div class="protein-card ${cardClasses}" 
                          onclick="toggleProtein('${protein.name}', ${protein.price})">
                         <div class="protein-name">${protein.name}</div>
                         <div class="protein-price">${isIncluded ? '<span style="color: #4caf50;">Incluida</span>' : isExceeded ? `<span style="color: #ffcdd2;">+$${protein.price.toLocaleString()}</span>` : `+$${protein.price.toLocaleString()}`}</div>

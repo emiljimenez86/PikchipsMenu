@@ -992,19 +992,126 @@
             const costoAdicionalLlevar = getLlevarCosto();
             const totalLlevar = calculateTotalLlevar(); // SIEMPRE se usa este total en WhatsApp
             
-            // Formato del mensaje según el ejemplo
-            let message = `*${selectedPikada.name}*\n`;
-            message += `*Precio Base:* $${selectedPikada.price.toLocaleString()}\n`;
-            message += `*Incluye:* ${includedProteins} Proteínas, ${includedGuarniciones} Guarniciones, ${includedEnsaladas} Ensalada(s), ${includedSalsas} Salsa(s)\n`;
-            message += `*Servicio de empaques para llevar:* +$${costoAdicionalLlevar.toLocaleString()}\n`;
-            message += `*Proteínas:* ${selectedProteins.length}/${includedProteins} seleccionadas\n`;
-            message += `*Guarniciones:* ${selectedGuarniciones.length}/${includedGuarniciones} seleccionadas\n`;
-            message += `*Ensaladas:* ${selectedEnsaladas.length}/${includedEnsaladas} seleccionadas\n`;
-            message += `*Salsas:* ${selectedSalsas.length}/${includedSalsas} seleccionadas\n`;
-            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
-            message += `*Total: $${totalLlevar.toLocaleString()}*\n`;
+            // Construir mensaje detallado
+            let message = `🍽️ *${selectedPikada.name}*\n\n`;
+            
+            // Precio base
+            message += `💰 *Precio Base:* $${selectedPikada.price.toLocaleString()}\n`;
+            message += `📦 *Incluye:* ${includedProteins} Proteínas, ${includedGuarniciones} Guarniciones, ${includedEnsaladas} Ensalada(s), ${includedSalsas} Salsa(s)\n\n`;
+            
+            // Proteínas detalladas
+            message += `🥩 *PROTEÍNAS:*\n`;
+            if (selectedProteins.length > 0) {
+                selectedProteins.forEach((protein, index) => {
+                    if (index < includedProteins) {
+                        message += `   ✓ ${protein.name} (Incluida)\n`;
+                    } else {
+                        message += `   ➕ ${protein.name} (+$${protein.price.toLocaleString()})\n`;
+                    }
+                });
+                if (selectedProteins.length < includedProteins) {
+                    message += `   ⚠️ ${selectedProteins.length}/${includedProteins} seleccionadas\n`;
+                }
+            } else {
+                message += `   ⚠️ Ninguna seleccionada (0/${includedProteins})\n`;
+            }
+            
+            // Calcular costo adicional de proteínas
+            let proteinAdditionalCost = 0;
+            if (additional.proteins > 0) {
+                const additionalProteins = selectedProteins.slice(-additional.proteins);
+                proteinAdditionalCost = additionalProteins.reduce((sum, p) => sum + p.price, 0);
+            }
+            
             message += `\n`;
-            message += `¡Deseo realizar este pedido!`;
+            
+            // Guarniciones detalladas
+            message += `🍟 *GUARNICIONES:*\n`;
+            if (selectedGuarniciones.length > 0) {
+                selectedGuarniciones.forEach((guarnicion, index) => {
+                    if (index < includedGuarniciones) {
+                        message += `   ✓ ${guarnicion} (Incluida)\n`;
+                    } else {
+                        message += `   ➕ ${guarnicion} (+$${ADDITIONAL_GUARNICION_PRICE.toLocaleString()})\n`;
+                    }
+                });
+                if (selectedGuarniciones.length < includedGuarniciones) {
+                    message += `   ⚠️ ${selectedGuarniciones.length}/${includedGuarniciones} seleccionadas\n`;
+                }
+            } else {
+                message += `   ⚠️ Ninguna seleccionada (0/${includedGuarniciones})\n`;
+            }
+            
+            // Calcular costo adicional de guarniciones
+            const guarnicionAdditionalCost = additional.guarniciones * ADDITIONAL_GUARNICION_PRICE;
+            
+            message += `\n`;
+            
+            // Ensaladas detalladas
+            message += `🥗 *ENSALADAS:*\n`;
+            if (selectedEnsaladas.length > 0) {
+                selectedEnsaladas.forEach((ensalada, index) => {
+                    if (index < includedEnsaladas) {
+                        message += `   ✓ ${ensalada} (Incluida)\n`;
+                    } else {
+                        message += `   ➕ ${ensalada} (+$${ADDITIONAL_ENSALADA_PRICE.toLocaleString()})\n`;
+                    }
+                });
+                if (selectedEnsaladas.length < includedEnsaladas) {
+                    message += `   ⚠️ ${selectedEnsaladas.length}/${includedEnsaladas} seleccionadas\n`;
+                }
+            } else {
+                message += `   ⚠️ Ninguna seleccionada (0/${includedEnsaladas})\n`;
+            }
+            
+            // Calcular costo adicional de ensaladas
+            const ensaladaAdditionalCost = additional.ensaladas * ADDITIONAL_ENSALADA_PRICE;
+            
+            message += `\n`;
+            
+            // Salsas detalladas
+            message += `🌶️ *SALSAS:*\n`;
+            if (selectedSalsas.length > 0) {
+                selectedSalsas.forEach((salsa, index) => {
+                    if (index < includedSalsas) {
+                        message += `   ✓ ${salsa} (Incluida)\n`;
+                    } else {
+                        message += `   ➕ ${salsa} (Adicional)\n`;
+                    }
+                });
+                if (selectedSalsas.length < includedSalsas) {
+                    message += `   ⚠️ ${selectedSalsas.length}/${includedSalsas} seleccionadas\n`;
+                }
+            } else {
+                message += `   ⚠️ Ninguna seleccionada (0/${includedSalsas})\n`;
+            }
+            
+            message += `\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `📊 *DESGLOSE DE COSTOS:*\n\n`;
+            message += `   Precio Base: $${selectedPikada.price.toLocaleString()}\n`;
+            
+            if (proteinAdditionalCost > 0) {
+                message += `   Proteínas Adicionales: +$${proteinAdditionalCost.toLocaleString()}\n`;
+            }
+            if (guarnicionAdditionalCost > 0) {
+                message += `   Guarniciones Adicionales: +$${guarnicionAdditionalCost.toLocaleString()}\n`;
+            }
+            if (ensaladaAdditionalCost > 0) {
+                message += `   Ensaladas Adicionales: +$${ensaladaAdditionalCost.toLocaleString()}\n`;
+            }
+            if (costoAdicionalLlevar > 0) {
+                message += `   📦 Servicio de empaques: +$${costoAdicionalLlevar.toLocaleString()}\n`;
+            }
+            
+            message += `\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `💵 *TOTAL: $${totalLlevar.toLocaleString()}*\n`;
+            message += `\n`;
+            message += `🚚 *Incluye servicio de empaques*\n`;
+            message += `🏍️ *+ Valor del domicilio*\n`;
+            message += `\n`;
+            message += `✅ ¡Deseo realizar este pedido!`;
             
             const whatsappUrl = `https://wa.me/+573218221222?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
