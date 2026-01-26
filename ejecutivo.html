@@ -422,13 +422,15 @@
         const sopas = [
             "S. frijoles",
             "S. Patacon",
-            "S. Mondongo"
+            "S. Mondongo",
+            "Sin sopa"
         ];
         
         const ensaladas = [
             "Verde",
             "Dulce",
-            "Rusa"
+            "Rusa",
+            "Sin ensalada"
         ];
         
         const bebidas = [
@@ -471,8 +473,9 @@
             const container = document.getElementById('sopa-selector');
             container.innerHTML = sopas.map(sopa => {
                 const isSelected = selectedSopa === sopa;
+                const isSinSopa = sopa === "Sin sopa";
                 return `
-                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectSopa('${sopa}')">
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectSopa('${sopa}')" style="${isSinSopa ? 'border-color: #999;' : ''}">
                         ${sopa}
                     </div>
                 `;
@@ -489,8 +492,9 @@
             const container = document.getElementById('ensalada-selector');
             container.innerHTML = ensaladas.map(ensalada => {
                 const isSelected = selectedEnsalada === ensalada;
+                const isSinEnsalada = ensalada === "Sin ensalada";
                 return `
-                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectEnsalada('${ensalada}')">
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectEnsalada('${ensalada}')" style="${isSinEnsalada ? 'border-color: #999;' : ''}">
                         ${ensalada}
                     </div>
                 `;
@@ -549,7 +553,11 @@
             // Sopa
             const sopaEl = document.getElementById('summary-sopa');
             if (selectedSopa) {
-                sopaEl.innerHTML = `<span style="color: #4caf50;">${selectedSopa} (incluida)</span>`;
+                if (selectedSopa === "Sin sopa") {
+                    sopaEl.innerHTML = `<span style="color: #999;">Sin sopa</span>`;
+                } else {
+                    sopaEl.innerHTML = `<span style="color: #4caf50;">${selectedSopa} (incluida)</span>`;
+                }
             } else {
                 sopaEl.textContent = '-';
             }
@@ -557,7 +565,11 @@
             // Ensalada
             const ensaladaEl = document.getElementById('summary-ensalada');
             if (selectedEnsalada) {
-                ensaladaEl.innerHTML = `<span style="color: #4caf50;">${selectedEnsalada} (incluida)</span>`;
+                if (selectedEnsalada === "Sin ensalada") {
+                    ensaladaEl.innerHTML = `<span style="color: #999;">Sin ensalada</span>`;
+                } else {
+                    ensaladaEl.innerHTML = `<span style="color: #4caf50;">${selectedEnsalada} (incluida)</span>`;
+                }
             } else {
                 ensaladaEl.textContent = '-';
             }
@@ -593,19 +605,31 @@
             }
             
             if (!selectedSopa) {
-                alert('Por favor selecciona una sopa');
+                alert('Por favor selecciona una opción de sopa');
                 return;
             }
             
             if (!selectedEnsalada) {
-                alert('Por favor selecciona una ensalada');
+                alert('Por favor selecciona una opción de ensalada');
                 return;
             }
             
             let message = `🍽️ *${dishData.name}*\n\n`;
             message += `*Tipo de Ejecutivo:*\n${selectedEjecutivo}\n\n`;
-            message += `*Sopa:* ${selectedSopa} (incluida)\n`;
-            message += `*Ensalada:* ${selectedEnsalada} (incluida)\n\n`;
+            
+            // Sopa
+            if (selectedSopa === "Sin sopa") {
+                message += `*Sopa:* Sin sopa\n`;
+            } else {
+                message += `*Sopa:* ${selectedSopa} (incluida)\n`;
+            }
+            
+            // Ensalada
+            if (selectedEnsalada === "Sin ensalada") {
+                message += `*Ensalada:* Sin ensalada\n\n`;
+            } else {
+                message += `*Ensalada:* ${selectedEnsalada} (incluida)\n\n`;
+            }
             
             // Bebidas
             if (selectedBebidas.length > 0) {
