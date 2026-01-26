@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PikChips">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="EJECUTIVO - PikChips">
+    
+    <title>EJECUTIVO - PikChips</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="image/PikMenu.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="image/PikMenu.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        .dish-details {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .dish-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .dish-includes {
+            background: rgba(255, 235, 59, 0.1);
+            border: 2px solid rgba(255, 235, 59, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .dish-includes h4 {
+            color: #ffeb3b;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .dish-includes ul {
+            list-style: none;
+            padding: 0;
+            color: #ffffff;
+        }
+        
+        .dish-includes li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .dish-includes li:last-child {
+            border-bottom: none;
+        }
+        
+        .dish-includes li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .selection-group {
+            margin-top: 25px;
+        }
+
+        .selection-group h4 {
+            color: #ffeb3b;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .option-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .option-card {
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 10px;
+            padding: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .option-card:hover {
+            border-color: #ffeb3b;
+            transform: translateY(-3px);
+        }
+
+        .option-card.selected {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        .base-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 235, 59, 0.1);
+            border-radius: 10px;
+        }
+        
+        .build-plate-section {
+            background: #1a1a1a;
+            padding: 30px 20px;
+            margin: 30px auto;
+            max-width: 600px;
+            border-radius: 15px;
+            border: 3px solid #ffeb3b;
+        }
+        
+        .build-plate-section h3 {
+            color: #ffeb3b;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .total-price-section {
+            background: linear-gradient(135deg, #ffeb3b, #fdd835);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .total-price-label {
+            color: #000000;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .total-price-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.3);
+        }
+        
+        .order-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .order-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .selection-info {
+            color: #ffeb3b;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(76, 175, 80, 0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dish-title {
+                font-size: 2rem;
+            }
+            
+            .total-price-amount {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Fondo de página */
+        body {
+            background-image: url('image/fondo4.png') !important;
+            background-size: cover !important;
+            background-position: center center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+            position: relative !important;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Transparencia para tarjetas */
+        html body .menu-content,
+        body .menu-content,
+        .menu-content {
+            background: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Navigation -->
+    <div class="back-navigation">
+        <a href="comidas-corrientes.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Volver a Ejecutivos
+        </a>
+    </div>
+
+    <!-- Category Header -->
+    <header class="category-header">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image" decoding="async" fetchpriority="high">
+            </div>
+            <div class="brand-text">
+                <h1>EJECUTIVO</h1>
+                <div class="tagline">Plato del día</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dish Details -->
+    <main class="menu-content">
+        <div class="dish-details">
+            <h2 class="dish-title">EJECUTIVO</h2>
+            
+            <div class="dish-includes">
+                <h4>Incluye:</h4>
+                <ul>
+                    <li>1 Sopa</li>
+                    <li>1 Ensalada</li>
+                </ul>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); text-align: center;">
+                    <p style="color: #ffeb3b; font-size: 0.9rem; margin: 0;">
+                        <i class="fas fa-info-circle"></i> Las bebidas son por aparte
+                    </p>
+                </div>
+            </div>
+            
+            <div class="base-price">
+                Precio: $28.000
+            </div>
+        </div>
+
+        <!-- Build Your Plate Section -->
+        <div class="build-plate-section">
+            <h3><i class="fas fa-utensils"></i> Personaliza tu Ejecutivo</h3>
+            
+            <div class="selection-group">
+                <h4><i class="fas fa-drumstick-bite"></i> Tipo de Ejecutivo</h4>
+                <p class="selection-info">
+                    <i class="fas fa-info-circle"></i> Seleccione 1 como máximo
+                </p>
+                <div class="option-list" id="ejecutivo-selector"></div>
+            </div>
+            
+            <div class="selection-group">
+                <h4><i class="fas fa-bowl-food"></i> Ejecutivo Sopa</h4>
+                <p class="selection-info">
+                    <i class="fas fa-info-circle"></i> Seleccione 1 como máximo
+                </p>
+                <div class="option-list" id="sopa-selector"></div>
+            </div>
+            
+            <div class="selection-group">
+                <h4><i class="fas fa-leaf"></i> Ejecutivo Ensalada</h4>
+                <p class="selection-info">
+                    <i class="fas fa-info-circle"></i> Seleccione 1 como máximo
+                </p>
+                <div class="option-list" id="ensalada-selector"></div>
+            </div>
+            
+            <!-- Resumen de Selección -->
+            <div class="selection-summary" id="selection-summary" style="background: rgba(42, 42, 42, 0.3); backdrop-filter: blur(10px); padding: 20px; border-radius: 15px; border: 2px solid #ffeb3b; margin-top: 30px; margin-bottom: 20px;">
+                <h3 style="color: #ffeb3b; margin-bottom: 15px; font-size: 1.3rem; text-align: center;">
+                    <i class="fas fa-list-check" style="margin-right: 8px;"></i>Resumen de tu Pedido
+                </h3>
+                <div id="summary-content" style="color: #ffffff;">
+                    <p style="margin: 10px 0;"><strong style="color: #ffeb3b;">Ejecutivo:</strong> <span id="summary-ejecutivo">-</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ffeb3b;">Sopa:</strong> <span id="summary-sopa">-</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ffeb3b;">Ensalada:</strong> <span id="summary-ensalada">-</span></p>
+                    <p style="margin: 10px 0;"><strong style="color: #ffeb3b;">Bebidas:</strong> <span id="summary-bebidas">Sin bebidas</span></p>
+                </div>
+            </div>
+            
+            <!-- Sección de Bebidas (Colapsable) -->
+            <div style="background: rgba(42, 42, 42, 0.3); backdrop-filter: blur(10px); border: 2px solid #4caf50; border-radius: 15px; padding: 20px; margin: 20px 0;">
+                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="toggleBebidas()">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-glass-whiskey" style="font-size: 1.5rem; color: #4caf50;"></i>
+                        <div>
+                            <h4 style="color: #4caf50; font-size: 1.2rem; font-weight: 700; margin: 0;">
+                                Agregar Bebida (Opcional)
+                            </h4>
+                            <p style="color: #cccccc; font-size: 0.85rem; margin: 5px 0 0 0;">
+                                Las bebidas son por aparte
+                            </p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down" id="bebidas-chevron" style="font-size: 1.2rem; color: #4caf50; transition: transform 0.3s ease;"></i>
+                </div>
+                
+                <div id="bebidas-content" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(76, 175, 80, 0.3);">
+                    <div class="option-list" id="bebidas-selector" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));"></div>
+                </div>
+            </div>
+            
+            <div class="total-price-section">
+                <div class="total-price-label">Total a Pagar:</div>
+                <div class="total-price-amount" id="total-price">$28.000</div>
+            </div>
+            
+            <a href="#" class="order-button" id="order-button" onclick="sendOrder(); return false;">
+                <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+            </a>
+        </div>
+    </main>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="address">
+            <h3>Dirección</h3>
+            <a href="https://maps.app.goo.gl/ochgZSWpUc8TR35n7" target="_blank" style="text-decoration: none; color: inherit;">
+                <p><i class="fas fa-map-marker-alt"></i> Calle 22 # 15-33 Barrio el Pajonal Caucasia - Antioquia</p>
+            </a>
+        </div>
+        <div class="contact">
+            <h3>Contáctanos</h3>
+            <div class="contact-icons">
+                <a href="tel:+573218221222" class="contact-icon phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://www.instagram.com/pikchips_/" class="contact-icon facebook">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://wa.me/+573218221222" class="contact-icon whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 PikChips. Todos los derechos reservados.</p>
+        <p>Emil Jiménez Ortiz - Desarrollador Web</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const dishData = {
+            name: "EJECUTIVO",
+            basePrice: 28000,
+            includes: [
+                "1 Sopa",
+                "1 Ensalada"
+            ]
+        };
+        
+        const ejecutivos = [
+            "E. Molida",
+            "E. Res Asada",
+            "E. Cerdo Asado",
+            "E. Pechuga Asada",
+            "E. Res Desemechada",
+            "E. Sobrebarriga",
+            "E. Chicharron"
+        ];
+        
+        const sopas = [
+            "S. frijoles",
+            "S. Patacon",
+            "S. Mondongo"
+        ];
+        
+        const ensaladas = [
+            "Verde",
+            "Dulce",
+            "Rusa"
+        ];
+        
+        const bebidas = [
+            { name: "JUGOS EN AGUA", price: 8000 },
+            { name: "JUGOS EN LECHE", price: 10000 },
+            { name: "HIT", price: 5000 },
+            { name: "GASEOSA X400", price: 5000 },
+            { name: "AGUA PEQUEÑA", price: 2000 },
+            { name: "AGUA GRANDE", price: 3000 },
+            { name: "CORONA", price: 8000 },
+            { name: "CORONITA", price: 6000 },
+            { name: "AGUAS SABORISADAS", price: 5000 },
+            { name: "MISTER TEA", price: 5000 }
+        ];
+        
+        let selectedEjecutivo = "";
+        let selectedSopa = "";
+        let selectedEnsalada = "";
+        let selectedBebidas = [];
+        
+        function renderEjecutivos() {
+            const container = document.getElementById('ejecutivo-selector');
+            container.innerHTML = ejecutivos.map(ejecutivo => {
+                const isSelected = selectedEjecutivo === ejecutivo;
+                return `
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectEjecutivo('${ejecutivo}')">
+                        ${ejecutivo}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function selectEjecutivo(name) {
+            selectedEjecutivo = selectedEjecutivo === name ? "" : name;
+            renderEjecutivos();
+            updateSummary();
+        }
+        
+        function renderSopas() {
+            const container = document.getElementById('sopa-selector');
+            container.innerHTML = sopas.map(sopa => {
+                const isSelected = selectedSopa === sopa;
+                return `
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectSopa('${sopa}')">
+                        ${sopa}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function selectSopa(name) {
+            selectedSopa = selectedSopa === name ? "" : name;
+            renderSopas();
+            updateSummary();
+        }
+        
+        function renderEnsaladas() {
+            const container = document.getElementById('ensalada-selector');
+            container.innerHTML = ensaladas.map(ensalada => {
+                const isSelected = selectedEnsalada === ensalada;
+                return `
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectEnsalada('${ensalada}')">
+                        ${ensalada}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function selectEnsalada(name) {
+            selectedEnsalada = selectedEnsalada === name ? "" : name;
+            renderEnsaladas();
+            updateSummary();
+        }
+        
+        function toggleBebidas() {
+            const content = document.getElementById('bebidas-content');
+            const chevron = document.getElementById('bebidas-chevron');
+            const isHidden = content.style.display === 'none';
+            
+            content.style.display = isHidden ? 'block' : 'none';
+            chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+        
+        function renderBebidas() {
+            const container = document.getElementById('bebidas-selector');
+            container.innerHTML = bebidas.map(bebida => {
+                const isSelected = selectedBebidas.some(b => b.name === bebida.name);
+                return `
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="toggleBebida('${bebida.name}', ${bebida.price})">
+                        <div style="font-weight: 600; margin-bottom: 5px;">${bebida.name}</div>
+                        <div style="font-size: 0.85rem; color: #ffeb3b;">+$${bebida.price.toLocaleString()}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function toggleBebida(name, price) {
+            const index = selectedBebidas.findIndex(b => b.name === name);
+            if (index > -1) {
+                selectedBebidas.splice(index, 1);
+            } else {
+                selectedBebidas.push({ name, price });
+            }
+            renderBebidas();
+            updateSummary();
+            updateTotal();
+        }
+        
+        function updateSummary() {
+            // Ejecutivo
+            const ejecutivoEl = document.getElementById('summary-ejecutivo');
+            if (selectedEjecutivo) {
+                ejecutivoEl.innerHTML = `<span style="color: #4caf50;">${selectedEjecutivo}</span>`;
+            } else {
+                ejecutivoEl.textContent = '-';
+            }
+            
+            // Sopa
+            const sopaEl = document.getElementById('summary-sopa');
+            if (selectedSopa) {
+                sopaEl.innerHTML = `<span style="color: #4caf50;">${selectedSopa} (incluida)</span>`;
+            } else {
+                sopaEl.textContent = '-';
+            }
+            
+            // Ensalada
+            const ensaladaEl = document.getElementById('summary-ensalada');
+            if (selectedEnsalada) {
+                ensaladaEl.innerHTML = `<span style="color: #4caf50;">${selectedEnsalada} (incluida)</span>`;
+            } else {
+                ensaladaEl.textContent = '-';
+            }
+            
+            // Bebidas
+            const bebidasEl = document.getElementById('summary-bebidas');
+            if (bebidasEl) {
+                if (selectedBebidas.length > 0) {
+                    const bebidasText = selectedBebidas.map(b => `${b.name} (+$${b.price.toLocaleString()})`).join(', ');
+                    bebidasEl.innerHTML = `<span style="color: #4caf50;">${bebidasText}</span>`;
+                } else {
+                    bebidasEl.innerHTML = '<span style="color: #999;">Sin bebidas</span>';
+                }
+            }
+        }
+        
+        function updateTotal() {
+            const totalPriceEl = document.getElementById('total-price');
+            let total = dishData.basePrice;
+            
+            // Sumar bebidas seleccionadas
+            selectedBebidas.forEach(bebida => {
+                total += bebida.price;
+            });
+            
+            totalPriceEl.textContent = `$${total.toLocaleString()}`;
+        }
+        
+        function sendOrder() {
+            if (!selectedEjecutivo) {
+                alert('Por favor selecciona un tipo de ejecutivo');
+                return;
+            }
+            
+            if (!selectedSopa) {
+                alert('Por favor selecciona una sopa');
+                return;
+            }
+            
+            if (!selectedEnsalada) {
+                alert('Por favor selecciona una ensalada');
+                return;
+            }
+            
+            let message = `🍽️ *${dishData.name}*\n\n`;
+            message += `*Tipo de Ejecutivo:*\n${selectedEjecutivo}\n\n`;
+            message += `*Sopa:* ${selectedSopa} (incluida)\n`;
+            message += `*Ensalada:* ${selectedEnsalada} (incluida)\n\n`;
+            
+            // Bebidas
+            if (selectedBebidas.length > 0) {
+                message += `*Bebidas (por aparte):*\n`;
+                selectedBebidas.forEach(bebida => {
+                    message += `${bebida.name} (+$${bebida.price.toLocaleString()})\n`;
+                });
+                message += `\n`;
+            }
+            
+            let total = dishData.basePrice;
+            selectedBebidas.forEach(bebida => {
+                total += bebida.price;
+            });
+            
+            message += `━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `*Total: $${total.toLocaleString()}*\n\n`;
+            message += '¡Deseo realizar este pedido!';
+            
+            const whatsappUrl = `https://wa.me/+573218221222?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener parámetro de URL si existe
+            const urlParams = new URLSearchParams(window.location.search);
+            const ejecutivoParam = urlParams.get('ejecutivo');
+            if (ejecutivoParam && ejecutivos.includes(ejecutivoParam)) {
+                selectedEjecutivo = ejecutivoParam;
+            }
+            
+            renderEjecutivos();
+            renderSopas();
+            renderEnsaladas();
+            renderBebidas();
+            updateSummary();
+            updateTotal();
+        });
+    </script>
+</body>
+</html>
+

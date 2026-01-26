@@ -8,9 +8,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PikChips">
     <meta name="theme-color" content="#000000">
-    <meta name="description" content="Comidas Corrientes - PikChips">
+    <meta name="description" content="Ejecutivos - PikChips">
     
-    <title>COMIDAS CORRIENTES - PikChips</title>
+    <title>EJECUTIVOS - PikChips</title>
     
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
     <link rel="manifest" href="manifest.json">
     
     <style>
-        /* Cambiar colores rojos por amarillos en COMIDAS CORRIENTES */
+        /* Cambiar colores rojos por amarillos en EJECUTIVOS */
         .menu-item {
             border-left: 4px solid #ffeb3b !important;
         }
@@ -281,7 +281,7 @@
                 <img src="image/PikMenu.png" alt="PikChips Logo" class="logo-image" decoding="async" fetchpriority="high">
             </div>
             <div class="brand-text">
-                <h1>COMIDAS CORRIENTES</h1>
+                <h1>EJECUTIVOS</h1>
                 <div class="tagline">Platos del día</div>
             </div>
         </div>
@@ -290,62 +290,103 @@
     <!-- Menu Items -->
     <main class="menu-content">
         <div class="menu-grid">
-            <!-- Mensaje temporal -->
-            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #2a2a2a; border-radius: 15px; border: 3px solid #ffeb3b; margin: 20px auto; max-width: 600px;">
-                <i class="fas fa-utensils" style="font-size: 4rem; color: #ffeb3b; margin-bottom: 20px;"></i>
-                <h2 style="color: #ffeb3b; font-size: 2rem; font-weight: 700; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-                    Consulta con tu mesero(a) el menú del día
-                </h2>
-                <p style="color: #ffffff; font-size: 1.2rem; line-height: 1.6; margin-bottom: 30px;">
-                    Los platos del día varían según disponibilidad.<br>
-                    Pregunta a nuestro personal sobre las opciones disponibles.
-                </p>
-                <a href="https://wa.me/+573218221222?text=Hola,%20estoy%20utilizando%20su%20App,%20quiero%20consultar%20el%20menú%20del%20día." class="order-btn" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; background: #4caf50; color: white; text-decoration: none; padding: 15px 30px; border-radius: 25px; font-size: 1.1rem; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);">
-                    <i class="fab fa-whatsapp"></i> Pedir domicilio
-                </a>
-            </div>
-            
-            <!-- 
-            TEMPLATE PARA AGREGAR NUEVOS ITEMS (cuando tengas los datos):
-            Copia y pega este bloque para cada nuevo plato, luego reemplaza:
-            - El nombre del plato (NOMBRE DEL PLATO)
-            - El precio ($XX.XXX)
-            - El mensaje de WhatsApp (nombre del plato y precio)
-            
-            Si tienes imagen, agrega el div "item-image" antes de "item-details"
-            
-            <div class="menu-item">
+            <div class="menu-item" onclick="window.location.href='ejecutivo.html?ejecutivo=E. Molida'" style="cursor: pointer;">
                 <div class="item-content">
                     <div class="item-details">
-                        <h3>NOMBRE DEL PLATO</h3>
+                        <h3>E. Molida</h3>
                         <div class="item-actions">
-                            <p class="price">$XX.XXX</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20NOMBRE%20DEL%20PLATO%20por%20$XX.XXX" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <p class="price">$28.000</p>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='ejecutivo.html?ejecutivo=E. Molida';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            EJEMPLO CON IMAGEN (cuando tengas las fotos):
-            <div class="menu-item">
+
+            <div class="menu-item" onclick="window.location.href='ejecutivo.html?ejecutivo=E. Res Asada'" style="cursor: pointer;">
                 <div class="item-content">
-                    <div class="item-image">
-                        <img src="imageProductos/nombre-imagen.jpg" alt="NOMBRE DEL PLATO" loading="lazy" decoding="async">
-                    </div>
                     <div class="item-details">
-                        <h3>NOMBRE DEL PLATO</h3>
+                        <h3>E. Res Asada</h3>
                         <div class="item-actions">
-                            <p class="price">$XX.XXX</p>
-                            <a href="https://wa.me/+573218221222?text=Hola,%20quiero%20ordenar%20NOMBRE%20DEL%20PLATO%20por%20$XX.XXX" class="order-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir domicilio
-                            </a>
+                            <p class="price">$28.000</p>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='ejecutivo.html?ejecutivo=E. Res Asada';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            -->
+
+            <div class="menu-item" onclick="window.location.href='ejecutivo.html?ejecutivo=E. Cerdo Asado'" style="cursor: pointer;">
+                <div class="item-content">
+                    <div class="item-details">
+                        <h3>E. Cerdo Asado</h3>
+                        <div class="item-actions">
+                            <p class="price">$28.000</p>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='ejecutivo.html?ejecutivo=E. Cerdo Asado';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="window.location.href='ejecutivo.html?ejecutivo=E. Pechuga Asada'" style="cursor: pointer;">
+                <div class="item-content">
+                    <div class="item-details">
+                        <h3>E. Pechuga Asada</h3>
+                        <div class="item-actions">
+                            <p class="price">$28.000</p>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='ejecutivo.html?ejecutivo=E. Pechuga Asada';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="window.location.href='ejecutivo.html?ejecutivo=E. Res Desemechada'" style="cursor: pointer;">
+                <div class="item-content">
+                    <div class="item-details">
+                        <h3>E. Res Desemechada</h3>
+                        <div class="item-actions">
+                            <p class="price">$28.000</p>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='ejecutivo.html?ejecutivo=E. Res Desemechada';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="window.location.href='ejecutivo.html?ejecutivo=E. Sobrebarriga'" style="cursor: pointer;">
+                <div class="item-content">
+                    <div class="item-details">
+                        <h3>E. Sobrebarriga</h3>
+                        <div class="item-actions">
+                            <p class="price">$28.000</p>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='ejecutivo.html?ejecutivo=E. Sobrebarriga';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="window.location.href='ejecutivo.html?ejecutivo=E. Chicharron'" style="cursor: pointer;">
+                <div class="item-content">
+                    <div class="item-details">
+                        <h3>E. Chicharron</h3>
+                        <div class="item-actions">
+                            <p class="price">$28.000</p>
+                            <div class="order-btn" onclick="event.stopPropagation(); window.location.href='ejecutivo.html?ejecutivo=E. Chicharron';">
+                                <i class="fas fa-utensils"></i> Personalizar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
         </div>
     </main>
