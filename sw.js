@@ -1,6 +1,6 @@
-const CACHE_NAME = 'pikchips-v8';
-const STATIC_CACHE = 'pikchips-static-v8';
-const DYNAMIC_CACHE = 'pikchips-dynamic-v8';
+const CACHE_NAME = 'pikchips-v9';
+const STATIC_CACHE = 'pikchips-static-v9';
+const DYNAMIC_CACHE = 'pikchips-dynamic-v9';
 
 const urlsToCache = [
     './',
@@ -23,7 +23,8 @@ const urlsToCache = [
     './lomo-res.html',
     './pechuga.html',
     './costillas.html',
-    './churrasco.html'
+    './churrasco.html',
+    './bandeja-paisa.html'
 ];
 
 // Install event - Force update
